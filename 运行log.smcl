@@ -1,0 +1,2200 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\运行log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}14 Jan 2025, 11:44:02
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}. global loan_control facamt maturity loantype seniority secured num_lender
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         asdoc sum Spread Nonbank Uncertainty $loan_control ,replace font(Times New Roman) dec(3) save(描述性统计.doc)
+
+{txt}    Variable {c |}        Obs        Mean    Std. dev.       Min        Max
+{hline 13}{c +}{hline 57}
+{space 6}Spread {c |}{res}  1,158,807     182.774    136.6331         15        700
+{txt}{space 5}Nonbank {c |}{res}  1,158,807    .1452684    .3523714          0          1
+{txt}{space 1}Uncertainty {c |}{res}  1,158,807   -.0828749    .8261023  -2.341675   1.743955
+{txt}{space 6}facamt {c |}{res}  1,158,807    16.71569    1.299498   13.41466   19.74244
+{txt}{space 4}maturity {c |}{res}  1,158,807    3.807491    .6786589    1.94591   5.192957
+{txt}{hline 13}{c +}{hline 57}
+{space 4}loantype {c |}{res}  1,158,807    .2618003    .4396147          0          1
+{txt}{space 3}seniority {c |}{res}  1,158,807     .996203    .0615028          0          1
+{txt}{space 5}secured {c |}{res}  1,158,807    .4017701    .4902562          0          1
+{txt}{space 2}num_lender {c |}{res}  1,158,807    15.06412    12.73533          1        290
+Click to Open File:  {browse "描述性统计.doc"}
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank , absorb(  bcomid#year lcomid#year lcid#year bcid#year ) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   2{txt},{res}  37207{txt}){col 67}= {res}     26.07
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9241
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9145
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0002
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   39.7319
+
+{txt}{ralign 87:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 5.065196{col 35}{space 2} .7163221{col 46}{space 1}    7.07{col 55}{space 3}0.000{col 63}{space 4} 3.661185{col 76}{space 3} 6.469207
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.217553{col 35}{space 2} .4181532{col 46}{space 1}    2.91{col 55}{space 3}0.004{col 63}{space 4} .3979609{col 76}{space 3} 2.037145
+{txt}{space 21} {c |}
+{space 16}_cons {c |}{col 23}{res}{space 2} 182.1471{col 35}{space 2} .0619481{col 46}{space 1} 2940.32{col 55}{space 3}0.000{col 63}{space 4} 182.0256{col 76}{space 3} 182.2685
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 基准回归结果.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"基准回归结果.doc"'"':基准回归结果.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "基准回归结果.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control, absorb( lcomid bcomid year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 6895 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 36 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,151,912
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   8{txt},{res}  39833{txt}){col 67}= {res}    763.15
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.8153
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8069
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1058
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    39,834{txt}{col 51}Root MSE{col 67}= {res}   59.9043
+
+{txt}{ralign 87:(Std. err. adjusted for {res:39,834} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 2.337558{col 35}{space 2} .3804913{col 46}{space 1}    6.14{col 55}{space 3}0.000{col 63}{space 4} 1.591786{col 76}{space 3}  3.08333
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.518378{col 35}{space 2} .7864954{col 46}{space 1}    1.93{col 55}{space 3}0.054{col 63}{space 4}-.0231719{col 76}{space 3} 3.059927
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-2.891179{col 35}{space 2} .2929848{col 46}{space 1}   -9.87{col 55}{space 3}0.000{col 63}{space 4}-3.465436{col 76}{space 3}-2.316922
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} .7067173{col 35}{space 2} .4080946{col 46}{space 1}    1.73{col 55}{space 3}0.083{col 63}{space 4}-.0931578{col 76}{space 3} 1.506592
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 21.64834{col 35}{space 2} 1.734339{col 46}{space 1}   12.48{col 55}{space 3}0.000{col 63}{space 4} 18.24899{col 76}{space 3} 25.04768
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-280.1395{col 35}{space 2} 4.805371{col 46}{space 1}  -58.30{col 55}{space 3}0.000{col 63}{space 4}-289.5581{col 76}{space 3}-270.7208
+{txt}{space 14}secured {c |}{col 23}{res}{space 2} 41.38936{col 35}{space 2} .9970318{col 46}{space 1}   41.51{col 55}{space 3}0.000{col 63}{space 4} 39.43516{col 76}{space 3} 43.34357
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.6217731{col 35}{space 2} .0299665{col 46}{space 1}  -20.75{col 55}{space 3}0.000{col 63}{space 4}-.6805081{col 76}{space 3}-.5630381
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 494.3067{col 35}{space 2}  6.84735{col 46}{space 1}   72.19{col 55}{space 3}0.000{col 63}{space 4} 480.8857{col 76}{space 3} 507.7277
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}      lcomid{col 14}{c |}{space 1}     6992{col 27}{space 1}        0{col 39}{result}{space 1}     6992{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}      bcomid{col 14}{c |}{space 1}    43377{col 27}{space 1}       42{col 39}{result}{space 1}    43335{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}        year{col 14}{c |}{space 1}       32{col 27}{space 1}        1{col 39}{result}{space 1}       31{col 53}{text}?{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 基准回归结果.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"基准回归结果.doc"'"':基准回归结果.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "基准回归结果.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control, absorb( lcomid bcomid lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 7119 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 84 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,151,688
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  39755{txt}){col 67}= {res}    781.20
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.8312
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.8230
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1139
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    39,756{txt}{col 51}Root MSE{col 67}= {res}   57.3520
+
+{txt}{ralign 87:(Std. err. adjusted for {res:39,756} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2}    1.906{col 35}{space 2}  .380354{col 46}{space 1}    5.01{col 55}{space 3}0.000{col 63}{space 4} 1.160498{col 76}{space 3} 2.651503
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.535153{col 35}{space 2} .7462934{col 46}{space 1}    2.06{col 55}{space 3}0.040{col 63}{space 4} .0724007{col 76}{space 3} 2.997906
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-2.667042{col 35}{space 2} .2969224{col 46}{space 1}   -8.98{col 55}{space 3}0.000{col 63}{space 4}-3.249017{col 76}{space 3}-2.085067
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 1.716363{col 35}{space 2}   .45684{col 46}{space 1}    3.76{col 55}{space 3}0.000{col 63}{space 4} .8209459{col 76}{space 3}  2.61178
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 24.07786{col 35}{space 2} 1.817023{col 46}{space 1}   13.25{col 55}{space 3}0.000{col 63}{space 4} 20.51645{col 76}{space 3} 27.63927
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-279.6767{col 35}{space 2} 4.721055{col 46}{space 1}  -59.24{col 55}{space 3}0.000{col 63}{space 4}-288.9301{col 76}{space 3}-270.4233
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}  42.3238{col 35}{space 2} .9866942{col 46}{space 1}   42.89{col 55}{space 3}0.000{col 63}{space 4} 40.38986{col 76}{space 3} 44.25775
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.5860816{col 35}{space 2} .0314407{col 46}{space 1}  -18.64{col 55}{space 3}0.000{col 63}{space 4} -.647706{col 76}{space 3}-.5244571
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 484.6588{col 35}{space 2} 6.818715{col 46}{space 1}   71.08{col 55}{space 3}0.000{col 63}{space 4}  471.294{col 76}{space 3} 498.0237
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text} Absorbed FE{col 14}{c |} Categories{col 27} - Redundant{col 39}  = Num. Coefs{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}      lcomid{col 14}{c |}{space 1}     6972{col 27}{space 1}        0{col 39}{result}{space 1}     6972{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}      bcomid{col 14}{c |}{space 1}    43367{col 27}{space 1}       42{col 39}{result}{space 1}    43325{col 53}{text} {col 54}{c |}
+{res}{col 1}{text}   lcid#year{col 14}{c |}{space 1}     1900{col 27}{space 1}      127{col 39}{result}{space 1}     1773{col 53}{text}?{col 54}{c |}
+{res}{col 1}{text}   bcid#year{col 14}{c |}{space 1}     2170{col 27}{space 1}      402{col 39}{result}{space 1}     1768{col 53}{text}?{col 54}{c |}
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 基准回归结果.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"基准回归结果.doc"'"':基准回归结果.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "基准回归结果.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  37207{txt}){col 67}= {res}    499.20
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1174
+
+{txt}{ralign 87:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 3.924594{col 35}{space 2} .7080961{col 46}{space 1}    5.54{col 55}{space 3}0.000{col 63}{space 4} 2.536706{col 76}{space 3} 5.312482
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.282233{col 35}{space 2} .4205149{col 46}{space 1}    3.05{col 55}{space 3}0.002{col 63}{space 4} .4580117{col 76}{space 3} 2.106453
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-.5713943{col 35}{space 2} .2028695{col 46}{space 1}   -2.82{col 55}{space 3}0.005{col 63}{space 4}-.9690242{col 76}{space 3}-.1737644
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 5.592369{col 35}{space 2}  .565287{col 46}{space 1}    9.89{col 55}{space 3}0.000{col 63}{space 4} 4.484391{col 76}{space 3} 6.700347
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 24.02675{col 35}{space 2} 2.146773{col 46}{space 1}   11.19{col 55}{space 3}0.000{col 63}{space 4} 19.81902{col 76}{space 3} 28.23449
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-280.8793{col 35}{space 2} 4.806782{col 46}{space 1}  -58.43{col 55}{space 3}0.000{col 63}{space 4}-290.3007{col 76}{space 3}-271.4578
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-3.720264{col 35}{space 2} 1.583956{col 46}{space 1}   -2.35{col 55}{space 3}0.019{col 63}{space 4}-6.824861{col 76}{space 3}-.6156668
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.5410105{col 35}{space 2} .0449504{col 46}{space 1}  -12.04{col 55}{space 3}0.000{col 63}{space 4}-.6291146{col 76}{space 3}-.4529064
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 453.5956{col 35}{space 2} 5.543384{col 46}{space 1}   81.83{col 55}{space 3}0.000{col 63}{space 4} 442.7304{col 76}{space 3} 464.4608
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 基准回归结果.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"基准回归结果.doc"'"':基准回归结果.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "基准回归结果.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Liquidity_Depository $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 12023 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 50 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   431,416
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  11698{txt}){col 67}= {res}    103.38
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9275
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9145
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1595
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    11,699{txt}{col 51}Root MSE{col 67}= {res}   42.2241
+
+{txt}{ralign 110:(Std. err. adjusted for {res:11,699} clusters in {res:lcomid#bcid})}
+{hline 45}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 46}{c |}{col 58}    Robust
+{col 1}                                      Spread{col 46}{c |} Coefficient{col 58}  std. err.{col 70}      t{col 78}   P>|t|{col 86}     [95% con{col 99}f. interval]
+{hline 45}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 33}Uncertainty {c |}{col 46}{res}{space 2} 6.059851{col 58}{space 2} 1.527532{col 69}{space 1}    3.97{col 78}{space 3}0.000{col 86}{space 4} 3.065632{col 99}{space 3} 9.054069
+{txt}{space 35}1.Nonbank {c |}{col 46}{res}{space 2}        0{col 58}{txt}  (omitted)
+{space 44} {c |}
+{space 23}Nonbank#c.Uncertainty {c |}
+{space 42}1  {c |}{col 46}{res}{space 2} 4.503784{col 58}{space 2} 1.309381{col 69}{space 1}    3.44{col 78}{space 3}0.001{col 86}{space 4} 1.937179{col 99}{space 3} 7.070389
+{txt}{space 44} {c |}
+{space 24}Liquidity_Depository {c |}{col 46}{res}{space 2} 1.061285{col 58}{space 2} .2590271{col 69}{space 1}    4.10{col 78}{space 3}0.000{col 86}{space 4} .5535487{col 99}{space 3} 1.569021
+{txt}{space 44} {c |}
+{space 8}c.Uncertainty#c.Liquidity_Depository {c |}{col 46}{res}{space 2}-.3575865{col 58}{space 2} .0771471{col 69}{space 1}   -4.64{col 78}{space 3}0.000{col 86}{space 4}-.5088078{col 99}{space 3}-.2063653
+{txt}{space 44} {c |}
+{space 14}Nonbank#c.Liquidity_Depository {c |}
+{space 42}1  {c |}{col 46}{res}{space 2} 6.616481{col 58}{space 2} 2.534762{col 69}{space 1}    2.61{col 78}{space 3}0.009{col 86}{space 4} 1.647924{col 99}{space 3} 11.58504
+{txt}{space 44} {c |}
+Nonbank#c.Uncertainty#c.Liquidity_Depository {c |}
+{space 42}1  {c |}{col 46}{res}{space 2}-.8954022{col 58}{space 2} .2913066{col 69}{space 1}   -3.07{col 78}{space 3}0.002{col 86}{space 4}-1.466412{col 99}{space 3}-.3243926
+{txt}{space 44} {c |}
+{space 38}facamt {c |}{col 46}{res}{space 2}  -.46447{col 58}{space 2} .4565015{col 69}{space 1}   -1.02{col 78}{space 3}0.309{col 86}{space 4}-1.359289{col 99}{space 3} .4303491
+{txt}{space 36}maturity {c |}{col 46}{res}{space 2} 8.377081{col 58}{space 2} 1.067721{col 69}{space 1}    7.85{col 78}{space 3}0.000{col 86}{space 4}  6.28417{col 99}{space 3} 10.46999
+{txt}{space 36}loantype {c |}{col 46}{res}{space 2} 49.71565{col 58}{space 2} 4.259914{col 69}{space 1}   11.67{col 78}{space 3}0.000{col 86}{space 4} 41.36551{col 99}{space 3} 58.06579
+{txt}{space 35}seniority {c |}{col 46}{res}{space 2}-266.4942{col 58}{space 2} 9.532559{col 69}{space 1}  -27.96{col 78}{space 3}0.000{col 86}{space 4}-285.1796{col 99}{space 3}-247.8088
+{txt}{space 37}secured {c |}{col 46}{res}{space 2}-8.134447{col 58}{space 2} 2.633794{col 69}{space 1}   -3.09{col 78}{space 3}0.002{col 86}{space 4}-13.29712{col 99}{space 3}-2.971773
+{txt}{space 34}num_lender {c |}{col 46}{res}{space 2}-.8979866{col 58}{space 2} .1028714{col 69}{space 1}   -8.73{col 78}{space 3}0.000{col 86}{space 4}-1.099632{col 99}{space 3}-.6963414
+{txt}{space 39}_cons {c |}{col 46}{res}{space 2} 454.1162{col 58}{space 2} 11.60849{col 69}{space 1}   39.12{col 78}{space 3}0.000{col 86}{space 4} 431.3616{col 99}{space 3} 476.8708
+{txt}{hline 45}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    54796{col 29}{space 1}        0{col 41}{result}{space 1}    54796{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    11006{col 29}{space 1}      134{col 41}{result}{space 1}    10872{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}      614{col 29}{space 1}      614{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1297{col 29}{space 1}     1297{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性机制.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Liquidity_Depository ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性机制.doc"'"':流动性机制.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性机制.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Liquidity_Otherfin $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 11155 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 49 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   341,297
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}   5951{txt}){col 67}= {res}    141.79
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9261
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9115
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1530
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}     5,952{txt}{col 51}Root MSE{col 67}= {res}   43.1394
+
+{txt}{ralign 108:(Std. err. adjusted for {res:5,952} clusters in {res:lcomid#bcid})}
+{hline 43}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 44}{c |}{col 56}    Robust
+{col 1}                                    Spread{col 44}{c |} Coefficient{col 56}  std. err.{col 68}      t{col 76}   P>|t|{col 84}     [95% con{col 97}f. interval]
+{hline 43}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 31}Uncertainty {c |}{col 44}{res}{space 2} 14.57413{col 56}{space 2} 2.503575{col 67}{space 1}    5.82{col 76}{space 3}0.000{col 84}{space 4} 9.666217{col 97}{space 3} 19.48205
+{txt}{space 33}1.Nonbank {c |}{col 44}{res}{space 2}        0{col 56}{txt}  (omitted)
+{space 42} {c |}
+{space 21}Nonbank#c.Uncertainty {c |}
+{space 40}1  {c |}{col 44}{res}{space 2} 9.212853{col 56}{space 2} 4.222213{col 67}{space 1}    2.18{col 76}{space 3}0.029{col 84}{space 4} .9357847{col 97}{space 3} 17.48992
+{txt}{space 42} {c |}
+{space 24}Liquidity_Otherfin {c |}{col 44}{res}{space 2} 1.970966{col 56}{space 2} .5448645{col 67}{space 1}    3.62{col 76}{space 3}0.000{col 84}{space 4} .9028345{col 97}{space 3} 3.039098
+{txt}{space 42} {c |}
+{space 8}c.Uncertainty#c.Liquidity_Otherfin {c |}{col 44}{res}{space 2}-.4814799{col 56}{space 2} .0949629{col 67}{space 1}   -5.07{col 76}{space 3}0.000{col 84}{space 4}-.6676415{col 97}{space 3}-.2953182
+{txt}{space 42} {c |}
+{space 14}Nonbank#c.Liquidity_Otherfin {c |}
+{space 40}1  {c |}{col 44}{res}{space 2} 1.323409{col 56}{space 2} .6264126{col 67}{space 1}    2.11{col 76}{space 3}0.035{col 84}{space 4} .0954133{col 97}{space 3} 2.551405
+{txt}{space 42} {c |}
+Nonbank#c.Uncertainty#c.Liquidity_Otherfin {c |}
+{space 40}1  {c |}{col 44}{res}{space 2}-.5027377{col 56}{space 2} .2564815{col 67}{space 1}   -1.96{col 76}{space 3}0.050{col 84}{space 4}-1.005535{col 97}{space 3} .0000591
+{txt}{space 42} {c |}
+{space 36}facamt {c |}{col 44}{res}{space 2}-.6540879{col 56}{space 2} .5945205{col 67}{space 1}   -1.10{col 76}{space 3}0.271{col 84}{space 4}-1.819564{col 97}{space 3} .5113878
+{txt}{space 34}maturity {c |}{col 44}{res}{space 2} 5.808335{col 56}{space 2} 1.047028{col 67}{space 1}    5.55{col 76}{space 3}0.000{col 84}{space 4} 3.755781{col 97}{space 3}  7.86089
+{txt}{space 34}loantype {c |}{col 44}{res}{space 2} 55.25162{col 56}{space 2} 5.154146{col 67}{space 1}   10.72{col 76}{space 3}0.000{col 84}{space 4} 45.14763{col 97}{space 3} 65.35562
+{txt}{space 33}seniority {c |}{col 44}{res}{space 2}-292.8338{col 56}{space 2} 8.865772{col 67}{space 1}  -33.03{col 76}{space 3}0.000{col 84}{space 4}-310.2139{col 97}{space 3}-275.4537
+{txt}{space 35}secured {c |}{col 44}{res}{space 2}-8.260933{col 56}{space 2} 2.947192{col 67}{space 1}   -2.80{col 76}{space 3}0.005{col 84}{space 4} -14.0385{col 97}{space 3}-2.483368
+{txt}{space 32}num_lender {c |}{col 44}{res}{space 2}-.8966415{col 56}{space 2} .1152848{col 67}{space 1}   -7.78{col 76}{space 3}0.000{col 84}{space 4}-1.122642{col 97}{space 3}-.6706415
+{txt}{space 37}_cons {c |}{col 44}{res}{space 2} 464.7797{col 56}{space 2} 17.98858{col 67}{space 1}   25.84{col 76}{space 3}0.000{col 84}{space 4} 429.5155{col 97}{space 3} 500.0438
+{txt}{hline 43}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    49449{col 29}{space 1}        0{col 41}{result}{space 1}    49449{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}     7069{col 29}{space 1}      143{col 41}{result}{space 1}     6926{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}      175{col 29}{space 1}      175{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1141{col 29}{space 1}     1141{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性机制.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Liquidity_Otherfin ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性机制.doc"'"':流动性机制.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性机制.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Ted_Spread $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    339.69
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1162
+
+{txt}{ralign 100:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 35}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 36}{c |}{col 48}    Robust
+{col 1}                            Spread{col 36}{c |} Coefficient{col 48}  std. err.{col 60}      t{col 68}   P>|t|{col 76}     [95% con{col 89}f. interval]
+{hline 35}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 23}Uncertainty {c |}{col 36}{res}{space 2} 6.395362{col 48}{space 2} 1.040627{col 59}{space 1}    6.15{col 68}{space 3}0.000{col 76}{space 4} 4.355704{col 89}{space 3}  8.43502
+{txt}{space 25}1.Nonbank {c |}{col 36}{res}{space 2}        0{col 48}{txt}  (omitted)
+{space 34} {c |}
+{space 13}Nonbank#c.Uncertainty {c |}
+{space 32}1  {c |}{col 36}{res}{space 2} .3119023{col 48}{space 2}  .584403{col 59}{space 1}    0.53{col 68}{space 3}0.594{col 76}{space 4}-.8335438{col 89}{space 3} 1.457348
+{txt}{space 34} {c |}
+{space 24}Ted_Spread {c |}{col 36}{res}{space 2} -7.62056{col 48}{space 2} 1.948072{col 59}{space 1}   -3.91{col 68}{space 3}0.000{col 76}{space 4}-11.43883{col 89}{space 3}-3.802285
+{txt}{space 34} {c |}
+{space 8}c.Uncertainty#c.Ted_Spread {c |}{col 36}{res}{space 2}-4.261796{col 48}{space 2} 1.456207{col 59}{space 1}   -2.93{col 68}{space 3}0.003{col 76}{space 4}-7.116001{col 89}{space 3} -1.40759
+{txt}{space 34} {c |}
+{space 14}Nonbank#c.Ted_Spread {c |}
+{space 32}1  {c |}{col 36}{res}{space 2} 1.869841{col 48}{space 2} 1.147332{col 59}{space 1}    1.63{col 68}{space 3}0.103{col 76}{space 4} -.378961{col 89}{space 3} 4.118643
+{txt}{space 34} {c |}
+Nonbank#c.Uncertainty#c.Ted_Spread {c |}
+{space 32}1  {c |}{col 36}{res}{space 2} 1.918194{col 48}{space 2} .8623709{col 59}{space 1}    2.22{col 68}{space 3}0.026{col 76}{space 4} .2279228{col 89}{space 3} 3.608465
+{txt}{space 34} {c |}
+{space 28}facamt {c |}{col 36}{res}{space 2}-.5689861{col 48}{space 2} .2026364{col 59}{space 1}   -2.81{col 68}{space 3}0.005{col 76}{space 4}-.9661592{col 89}{space 3}-.1718131
+{txt}{space 26}maturity {c |}{col 36}{res}{space 2} 5.605233{col 48}{space 2} .5666701{col 59}{space 1}    9.89{col 68}{space 3}0.000{col 76}{space 4} 4.494544{col 89}{space 3} 6.715923
+{txt}{space 26}loantype {c |}{col 36}{res}{space 2}  24.0237{col 48}{space 2}  2.14676{col 59}{space 1}   11.19{col 68}{space 3}0.000{col 76}{space 4} 19.81599{col 89}{space 3} 28.23141
+{txt}{space 25}seniority {c |}{col 36}{res}{space 2}-280.8908{col 48}{space 2} 4.807311{col 59}{space 1}  -58.43{col 68}{space 3}0.000{col 76}{space 4}-290.3132{col 89}{space 3}-271.4683
+{txt}{space 27}secured {c |}{col 36}{res}{space 2}-3.709122{col 48}{space 2} 1.585108{col 59}{space 1}   -2.34{col 68}{space 3}0.019{col 76}{space 4}-6.815978{col 89}{space 3}-.6022665
+{txt}{space 24}num_lender {c |}{col 36}{res}{space 2}-.5376626{col 48}{space 2} .0454013{col 59}{space 1}  -11.84{col 68}{space 3}0.000{col 76}{space 4}-.6266503{col 89}{space 3}-.4486749
+{txt}{space 29}_cons {c |}{col 36}{res}{space 2} 456.4179{col 48}{space 2} 5.690148{col 59}{space 1}   80.21{col 68}{space 3}0.000{col 76}{space 4}  445.265{col 89}{space 3} 467.5707
+{txt}{hline 35}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性机制.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Ted_Spread ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性机制.doc"'"':流动性机制.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性机制.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Equity_Index $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 24690 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,067,098
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  34327{txt}){col 67}= {res}    339.44
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9364
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9281
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1795
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    34,328{txt}{col 51}Root MSE{col 67}= {res}   36.7081
+
+{txt}{ralign 102:(Std. err. adjusted for {res:34,328} clusters in {res:lcomid#bcid})}
+{hline 37}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 38}{c |}{col 50}    Robust
+{col 1}                              Spread{col 38}{c |} Coefficient{col 50}  std. err.{col 62}      t{col 70}   P>|t|{col 78}     [95% con{col 91}f. interval]
+{hline 37}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 25}Uncertainty {c |}{col 38}{res}{space 2} 3.859843{col 50}{space 2} .7603983{col 61}{space 1}    5.08{col 70}{space 3}0.000{col 78}{space 4} 2.369437{col 91}{space 3} 5.350249
+{txt}{space 27}1.Nonbank {c |}{col 38}{res}{space 2}        0{col 50}{txt}  (omitted)
+{space 36} {c |}
+{space 15}Nonbank#c.Uncertainty {c |}
+{space 34}1  {c |}{col 38}{res}{space 2} 1.425623{col 50}{space 2} .4430782{col 61}{space 1}    3.22{col 70}{space 3}0.001{col 78}{space 4} .5571747{col 91}{space 3} 2.294071
+{txt}{space 36} {c |}
+{space 24}Equity_Index {c |}{col 38}{res}{space 2}-1.334557{col 50}{space 2} .4461146{col 61}{space 1}   -2.99{col 70}{space 3}0.003{col 78}{space 4}-2.208957{col 91}{space 3}-.4601576
+{txt}{space 36} {c |}
+{space 8}c.Uncertainty#c.Equity_Index {c |}{col 38}{res}{space 2} 4.361615{col 50}{space 2} 1.612448{col 61}{space 1}    2.70{col 70}{space 3}0.007{col 78}{space 4} 1.201164{col 91}{space 3} 7.522067
+{txt}{space 36} {c |}
+{space 14}Nonbank#c.Equity_Index {c |}
+{space 34}1  {c |}{col 38}{res}{space 2} .5721012{col 50}{space 2} 2.732035{col 61}{space 1}    0.21{col 70}{space 3}0.834{col 78}{space 4}-4.782778{col 91}{space 3} 5.926981
+{txt}{space 36} {c |}
+Nonbank#c.Uncertainty#c.Equity_Index {c |}
+{space 34}1  {c |}{col 38}{res}{space 2}-4.843535{col 50}{space 2} 2.489401{col 61}{space 1}   -1.95{col 70}{space 3}0.052{col 78}{space 4}-9.722844{col 91}{space 3} .0357731
+{txt}{space 36} {c |}
+{space 30}facamt {c |}{col 38}{res}{space 2}-.5472768{col 50}{space 2} .2129641{col 61}{space 1}   -2.57{col 70}{space 3}0.010{col 78}{space 4}-.9646935{col 91}{space 3}-.1298601
+{txt}{space 28}maturity {c |}{col 38}{res}{space 2}  6.17507{col 50}{space 2} .6001575{col 61}{space 1}   10.29{col 70}{space 3}0.000{col 78}{space 4} 4.998742{col 91}{space 3} 7.351399
+{txt}{space 28}loantype {c |}{col 38}{res}{space 2} 25.53603{col 50}{space 2} 2.281716{col 61}{space 1}   11.19{col 70}{space 3}0.000{col 78}{space 4} 21.06379{col 91}{space 3} 30.00826
+{txt}{space 27}seniority {c |}{col 38}{res}{space 2}-284.6733{col 50}{space 2} 4.872943{col 61}{space 1}  -58.42{col 70}{space 3}0.000{col 78}{space 4}-294.2244{col 91}{space 3}-275.1221
+{txt}{space 29}secured {c |}{col 38}{res}{space 2}-4.274304{col 50}{space 2} 1.653768{col 61}{space 1}   -2.58{col 70}{space 3}0.010{col 78}{space 4}-7.515744{col 91}{space 3}-1.032863
+{txt}{space 26}num_lender {c |}{col 38}{res}{space 2}-.5840791{col 50}{space 2} .0492214{col 61}{space 1}  -11.87{col 70}{space 3}0.000{col 78}{space 4}-.6805547{col 91}{space 3}-.4876036
+{txt}{space 31}_cons {c |}{col 38}{res}{space 2} 458.5214{col 50}{space 2} 5.716302{col 61}{space 1}   80.21{col 70}{space 3}0.000{col 78}{space 4} 447.3172{col 91}{space 3} 469.7255
+{txt}{hline 37}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    92501{col 29}{space 1}        0{col 41}{result}{space 1}    92501{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31000{col 29}{space 1}      288{col 41}{result}{space 1}    30712{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1397{col 29}{space 1}     1397{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2141{col 29}{space 1}     2141{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性机制.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Equity_Index ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性机制.doc"'"':流动性机制.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性机制.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Capital_Adequacy $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 14641 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 30 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}Capital_Adequacy{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.Capital_Adequacy{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   317,695
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}   3075{txt}){col 67}= {res}    160.19
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9220
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9056
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1904
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}     3,076{txt}{col 51}Root MSE{col 67}= {res}   41.3833
+
+{txt}{ralign 106:(Std. err. adjusted for {res:3,076} clusters in {res:lcomid#bcid})}
+{hline 41}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 42}{c |}{col 54}    Robust
+{col 1}                                  Spread{col 42}{c |} Coefficient{col 54}  std. err.{col 66}      t{col 74}   P>|t|{col 82}     [95% con{col 95}f. interval]
+{hline 41}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 29}Uncertainty {c |}{col 42}{res}{space 2} 5.573653{col 54}{space 2} 1.867485{col 65}{space 1}    2.98{col 74}{space 3}0.003{col 82}{space 4} 1.912008{col 95}{space 3} 9.235298
+{txt}{space 31}1.Nonbank {c |}{col 42}{res}{space 2}        0{col 54}{txt}  (omitted)
+{space 40} {c |}
+{space 19}Nonbank#c.Uncertainty {c |}
+{space 38}1  {c |}{col 42}{res}{space 2} 3.446765{col 54}{space 2} 2.000867{col 65}{space 1}    1.72{col 74}{space 3}0.085{col 82}{space 4}-.4764064{col 95}{space 3} 7.369936
+{txt}{space 40} {c |}
+{space 24}Capital_Adequacy {c |}{col 42}{res}{space 2}        0{col 54}{txt}  (omitted)
+{space 40} {c |}
+{space 8}c.Uncertainty#c.Capital_Adequacy {c |}{col 42}{res}{space 2}-.0301139{col 54}{space 2} .0792485{col 65}{space 1}   -0.38{col 74}{space 3}0.704{col 82}{space 4}-.1854993{col 95}{space 3} .1252714
+{txt}{space 40} {c |}
+{space 14}Nonbank#c.Capital_Adequacy {c |}
+{space 38}1  {c |}{col 42}{res}{space 2}        0{col 54}{txt}  (omitted)
+{space 40} {c |}
+Nonbank#c.Uncertainty#c.Capital_Adequacy {c |}
+{space 38}1  {c |}{col 42}{res}{space 2}-.3796289{col 54}{space 2} .1670567{col 65}{space 1}   -2.27{col 74}{space 3}0.023{col 82}{space 4}-.7071829{col 95}{space 3}-.0520749
+{txt}{space 40} {c |}
+{space 34}facamt {c |}{col 42}{res}{space 2} .3346331{col 54}{space 2} .5385356{col 65}{space 1}    0.62{col 74}{space 3}0.534{col 82}{space 4}-.7212929{col 95}{space 3} 1.390559
+{txt}{space 32}maturity {c |}{col 42}{res}{space 2} 6.040045{col 54}{space 2} 1.105806{col 65}{space 1}    5.46{col 74}{space 3}0.000{col 82}{space 4} 3.871853{col 95}{space 3} 8.208238
+{txt}{space 32}loantype {c |}{col 42}{res}{space 2} 43.86417{col 54}{space 2} 5.335761{col 65}{space 1}    8.22{col 74}{space 3}0.000{col 82}{space 4} 33.40215{col 95}{space 3} 54.32619
+{txt}{space 31}seniority {c |}{col 42}{res}{space 2}-303.8625{col 54}{space 2} 9.276347{col 65}{space 1}  -32.76{col 74}{space 3}0.000{col 82}{space 4}-322.0509{col 95}{space 3} -285.674
+{txt}{space 33}secured {c |}{col 42}{res}{space 2}-5.171826{col 54}{space 2} 3.549623{col 65}{space 1}   -1.46{col 74}{space 3}0.145{col 82}{space 4} -12.1317{col 95}{space 3} 1.788048
+{txt}{space 30}num_lender {c |}{col 42}{res}{space 2}-1.020954{col 54}{space 2}  .143694{col 65}{space 1}   -7.11{col 74}{space 3}0.000{col 82}{space 4}  -1.3027{col 95}{space 3}-.7392075
+{txt}{space 35}_cons {c |}{col 42}{res}{space 2} 483.3579{col 54}{space 2} 12.48165{col 65}{space 1}   38.73{col 74}{space 3}0.000{col 82}{space 4} 458.8847{col 95}{space 3} 507.8311
+{txt}{hline 41}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    53479{col 29}{space 1}        0{col 41}{result}{space 1}    53479{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}     1779{col 29}{space 1}       48{col 41}{result}{space 1}     1731{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}      177{col 29}{space 1}      177{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1383{col 29}{space 1}     1383{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性机制.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Capital_Adequacy ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性机制.doc"'"':流动性机制.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性机制.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank##i.Dollar_loan $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    338.42
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1171
+
+{txt}{ralign 99:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 34}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 35}{c |}{col 47}    Robust
+{col 1}                           Spread{col 35}{c |} Coefficient{col 47}  std. err.{col 59}      t{col 67}   P>|t|{col 75}     [95% con{col 88}f. interval]
+{hline 34}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 22}Uncertainty {c |}{col 35}{res}{space 2} 3.781343{col 47}{space 2} .9044834{col 58}{space 1}    4.18{col 67}{space 3}0.000{col 75}{space 4}  2.00853{col 88}{space 3} 5.554156
+{txt}{space 24}1.Nonbank {c |}{col 35}{res}{space 2}        0{col 47}{txt}  (omitted)
+{space 33} {c |}
+{space 12}Nonbank#c.Uncertainty {c |}
+{space 31}1  {c |}{col 35}{res}{space 2} 1.925062{col 47}{space 2} .4643725{col 58}{space 1}    4.15{col 67}{space 3}0.000{col 75}{space 4} 1.014879{col 88}{space 3} 2.835245
+{txt}{space 33} {c |}
+{space 20}1.Dollar_loan {c |}{col 35}{res}{space 2} .6510603{col 47}{space 2}  .512005{col 58}{space 1}    1.27{col 67}{space 3}0.204{col 75}{space 4}-.3524836{col 88}{space 3} 1.654604
+{txt}{space 33} {c |}
+{space 8}Dollar_loan#c.Uncertainty {c |}
+{space 31}1  {c |}{col 35}{res}{space 2} .1771725{col 47}{space 2} .7097854{col 58}{space 1}    0.25{col 67}{space 3}0.803{col 75}{space 4}-1.214027{col 88}{space 3} 1.568372
+{txt}{space 33} {c |}
+{space 14}Nonbank#Dollar_loan {c |}
+{space 29}1 1  {c |}{col 35}{res}{space 2} 1.280984{col 47}{space 2}   .35367{col 58}{space 1}    3.62{col 67}{space 3}0.000{col 75}{space 4}  .587781{col 88}{space 3} 1.974187
+{txt}{space 33} {c |}
+Nonbank#Dollar_loan#c.Uncertainty {c |}
+{space 29}1 1  {c |}{col 35}{res}{space 2}-.7582867{col 47}{space 2} .4420055{col 58}{space 1}   -1.72{col 67}{space 3}0.086{col 75}{space 4} -1.62463{col 88}{space 3} .1080564
+{txt}{space 33} {c |}
+{space 27}facamt {c |}{col 35}{res}{space 2}-.5763973{col 47}{space 2} .2032626{col 58}{space 1}   -2.84{col 67}{space 3}0.005{col 75}{space 4}-.9747977{col 88}{space 3}-.1779969
+{txt}{space 25}maturity {c |}{col 35}{res}{space 2} 5.592999{col 47}{space 2} .5652241{col 58}{space 1}    9.90{col 67}{space 3}0.000{col 75}{space 4} 4.485144{col 88}{space 3} 6.700854
+{txt}{space 25}loantype {c |}{col 35}{res}{space 2} 24.02496{col 47}{space 2} 2.147684{col 58}{space 1}   11.19{col 67}{space 3}0.000{col 75}{space 4} 19.81544{col 88}{space 3} 28.23448
+{txt}{space 24}seniority {c |}{col 35}{res}{space 2}-280.8948{col 47}{space 2} 4.806874{col 58}{space 1}  -58.44{col 67}{space 3}0.000{col 75}{space 4}-290.3164{col 88}{space 3}-271.4732
+{txt}{space 26}secured {c |}{col 35}{res}{space 2}-3.715495{col 47}{space 2} 1.584984{col 58}{space 1}   -2.34{col 67}{space 3}0.019{col 75}{space 4}-6.822107{col 88}{space 3}-.6088832
+{txt}{space 23}num_lender {c |}{col 35}{res}{space 2} -.541474{col 47}{space 2} .0449166{col 58}{space 1}  -12.06{col 67}{space 3}0.000{col 75}{space 4}-.6295118{col 88}{space 3}-.4534363
+{txt}{space 28}_cons {c |}{col 35}{res}{space 2} 453.0725{col 47}{space 2} 5.525166{col 58}{space 1}   82.00{col 67}{space 3}0.000{col 75}{space 4} 442.2431{col 88}{space 3}  463.902
+{txt}{hline 34}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 贷款内部异质性.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#i.Dollar_loan ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"贷款内部异质性.doc"'"':贷款内部异质性.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "贷款内部异质性.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##i.With_border $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    339.26
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1172
+
+{txt}{ralign 99:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 34}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 35}{c |}{col 47}    Robust
+{col 1}                           Spread{col 35}{c |} Coefficient{col 47}  std. err.{col 59}      t{col 67}   P>|t|{col 75}     [95% con{col 88}f. interval]
+{hline 34}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 22}Uncertainty {c |}{col 35}{res}{space 2} 3.964391{col 47}{space 2} .7028133{col 58}{space 1}    5.64{col 67}{space 3}0.000{col 75}{space 4} 2.586857{col 88}{space 3} 5.341924
+{txt}{space 24}1.Nonbank {c |}{col 35}{res}{space 2}        0{col 47}{txt}  (omitted)
+{space 33} {c |}
+{space 12}Nonbank#c.Uncertainty {c |}
+{space 31}1  {c |}{col 35}{res}{space 2} 1.928473{col 47}{space 2} .4068979{col 58}{space 1}    4.74{col 67}{space 3}0.000{col 75}{space 4} 1.130941{col 88}{space 3} 2.726004
+{txt}{space 33} {c |}
+{space 20}1.With_border {c |}{col 35}{res}{space 2} .0152554{col 47}{space 2} .0881316{col 58}{space 1}    0.17{col 67}{space 3}0.863{col 75}{space 4} -.157485{col 88}{space 3} .1879958
+{txt}{space 33} {c |}
+{space 8}With_border#c.Uncertainty {c |}
+{space 31}1  {c |}{col 35}{res}{space 2}-.0910465{col 47}{space 2} .1106693{col 58}{space 1}   -0.82{col 67}{space 3}0.411{col 75}{space 4}-.3079614{col 88}{space 3} .1258683
+{txt}{space 33} {c |}
+{space 14}Nonbank#With_border {c |}
+{space 29}1 1  {c |}{col 35}{res}{space 2} 1.308088{col 47}{space 2} .2852022{col 58}{space 1}    4.59{col 67}{space 3}0.000{col 75}{space 4} .7490839{col 88}{space 3} 1.867092
+{txt}{space 33} {c |}
+Nonbank#With_border#c.Uncertainty {c |}
+{space 29}1 1  {c |}{col 35}{res}{space 2}-.8477926{col 47}{space 2} .3375795{col 58}{space 1}   -2.51{col 67}{space 3}0.012{col 75}{space 4}-1.509458{col 88}{space 3}-.1861274
+{txt}{space 33} {c |}
+{space 27}facamt {c |}{col 35}{res}{space 2}-.5734883{col 47}{space 2} .2032612{col 58}{space 1}   -2.82{col 67}{space 3}0.005{col 75}{space 4}-.9718859{col 88}{space 3}-.1750908
+{txt}{space 25}maturity {c |}{col 35}{res}{space 2} 5.592636{col 47}{space 2} .5652961{col 58}{space 1}    9.89{col 67}{space 3}0.000{col 75}{space 4}  4.48464{col 88}{space 3} 6.700632
+{txt}{space 25}loantype {c |}{col 35}{res}{space 2} 24.02682{col 47}{space 2} 2.146681{col 58}{space 1}   11.19{col 67}{space 3}0.000{col 75}{space 4} 19.81927{col 88}{space 3} 28.23437
+{txt}{space 24}seniority {c |}{col 35}{res}{space 2} -280.884{col 47}{space 2} 4.806654{col 58}{space 1}  -58.44{col 67}{space 3}0.000{col 75}{space 4}-290.3052{col 88}{space 3}-271.4628
+{txt}{space 26}secured {c |}{col 35}{res}{space 2}-3.720155{col 47}{space 2} 1.583981{col 58}{space 1}   -2.35{col 67}{space 3}0.019{col 75}{space 4}-6.824802{col 88}{space 3}-.6155079
+{txt}{space 23}num_lender {c |}{col 35}{res}{space 2}-.5407789{col 47}{space 2} .0449645{col 58}{space 1}  -12.03{col 67}{space 3}0.000{col 75}{space 4}-.6289105{col 88}{space 3}-.4526472
+{txt}{space 28}_cons {c |}{col 35}{res}{space 2} 453.4847{col 47}{space 2} 5.535365{col 58}{space 1}   81.92{col 67}{space 3}0.000{col 75}{space 4} 442.6352{col 88}{space 3} 464.3341
+{txt}{hline 34}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 贷款内部异质性.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#i.With_border ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"贷款内部异质性.doc"'"':贷款内部异质性.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "贷款内部异质性.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Reserve $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25416 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}Reserve{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.Reserve{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,064,084
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}  34983{txt}){col 67}= {res}    405.31
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9364
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9282
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1779
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    34,984{txt}{col 51}Root MSE{col 67}= {res}   36.9753
+
+{txt}{ralign 97:(Std. err. adjusted for {res:34,984} clusters in {res:lcomid#bcid})}
+{hline 32}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 33}{c |}{col 45}    Robust
+{col 1}                         Spread{col 33}{c |} Coefficient{col 45}  std. err.{col 57}      t{col 65}   P>|t|{col 73}     [95% con{col 86}f. interval]
+{hline 32}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 20}Uncertainty {c |}{col 33}{res}{space 2} 4.184573{col 45}{space 2} .7296098{col 56}{space 1}    5.74{col 65}{space 3}0.000{col 73}{space 4} 2.754515{col 86}{space 3} 5.614632
+{txt}{space 22}1.Nonbank {c |}{col 33}{res}{space 2}        0{col 45}{txt}  (omitted)
+{space 31} {c |}
+{space 10}Nonbank#c.Uncertainty {c |}
+{space 29}1  {c |}{col 33}{res}{space 2} 1.342523{col 45}{space 2} .4690073{col 56}{space 1}    2.86{col 65}{space 3}0.004{col 73}{space 4}  .423254{col 86}{space 3} 2.261792
+{txt}{space 31} {c |}
+{space 24}Reserve {c |}{col 33}{res}{space 2}        0{col 45}{txt}  (omitted)
+{space 31} {c |}
+{space 8}c.Uncertainty#c.Reserve {c |}{col 33}{res}{space 2}-.7382572{col 45}{space 2} 1.083843{col 56}{space 1}   -0.68{col 65}{space 3}0.496{col 73}{space 4}-2.862624{col 86}{space 3} 1.386109
+{txt}{space 31} {c |}
+{space 14}Nonbank#c.Reserve {c |}
+{space 29}1  {c |}{col 33}{res}{space 2}        0{col 45}{txt}  (omitted)
+{space 31} {c |}
+Nonbank#c.Uncertainty#c.Reserve {c |}
+{space 29}1  {c |}{col 33}{res}{space 2}-2.649378{col 45}{space 2} 1.458397{col 56}{space 1}   -1.82{col 65}{space 3}0.069{col 73}{space 4}-5.507882{col 86}{space 3} .2091263
+{txt}{space 31} {c |}
+{space 25}facamt {c |}{col 33}{res}{space 2}-.5856438{col 45}{space 2} .2217624{col 56}{space 1}   -2.64{col 65}{space 3}0.008{col 73}{space 4}-1.020305{col 86}{space 3}-.1509824
+{txt}{space 23}maturity {c |}{col 33}{res}{space 2} 5.427631{col 45}{space 2} .5740327{col 56}{space 1}    9.46{col 65}{space 3}0.000{col 73}{space 4} 4.302509{col 86}{space 3} 6.552754
+{txt}{space 23}loantype {c |}{col 33}{res}{space 2}  26.4465{col 45}{space 2} 2.323777{col 56}{space 1}   11.38{col 65}{space 3}0.000{col 73}{space 4} 21.89182{col 86}{space 3} 31.00117
+{txt}{space 22}seniority {c |}{col 33}{res}{space 2}-280.8826{col 45}{space 2} 4.823516{col 56}{space 1}  -58.23{col 65}{space 3}0.000{col 73}{space 4}-290.3368{col 86}{space 3}-271.4283
+{txt}{space 24}secured {c |}{col 33}{res}{space 2}-2.421388{col 45}{space 2} 1.700522{col 56}{space 1}   -1.42{col 65}{space 3}0.154{col 73}{space 4}-5.754465{col 86}{space 3} .9116886
+{txt}{space 21}num_lender {c |}{col 33}{res}{space 2}-.5382561{col 45}{space 2} .0450054{col 56}{space 1}  -11.96{col 65}{space 3}0.000{col 73}{space 4}-.6264681{col 86}{space 3}-.4500441
+{txt}{space 26}_cons {c |}{col 33}{res}{space 2}  457.439{col 45}{space 2} 5.703352{col 56}{space 1}   80.21{col 65}{space 3}0.000{col 73}{space 4} 446.2602{col 86}{space 3} 468.6177
+{txt}{hline 32}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    90586{col 29}{space 1}        0{col 41}{result}{space 1}    90586{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31696{col 29}{space 1}      299{col 41}{result}{space 1}    31397{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1725{col 29}{space 1}     1725{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2134{col 29}{space 1}     2134{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性救助能力.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Reserve ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性救助能力.doc"'"':流动性救助能力.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性救助能力.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.GFSN_CARD $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25397 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}GFSN_CARD{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.GFSN_CARD{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,063,878
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}  34937{txt}){col 67}= {res}    401.58
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9364
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9282
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1779
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    34,938{txt}{col 51}Root MSE{col 67}= {res}   36.9785
+
+{txt}{ralign 99:(Std. err. adjusted for {res:34,938} clusters in {res:lcomid#bcid})}
+{hline 34}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 35}{c |}{col 47}    Robust
+{col 1}                           Spread{col 35}{c |} Coefficient{col 47}  std. err.{col 59}      t{col 67}   P>|t|{col 75}     [95% con{col 88}f. interval]
+{hline 34}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 22}Uncertainty {c |}{col 35}{res}{space 2} 4.157141{col 47}{space 2} .7322864{col 58}{space 1}    5.68{col 67}{space 3}0.000{col 75}{space 4} 2.721837{col 88}{space 3} 5.592446
+{txt}{space 24}1.Nonbank {c |}{col 35}{res}{space 2}        0{col 47}{txt}  (omitted)
+{space 33} {c |}
+{space 12}Nonbank#c.Uncertainty {c |}
+{space 31}1  {c |}{col 35}{res}{space 2} 1.282087{col 47}{space 2} .4292525{col 58}{space 1}    2.99{col 67}{space 3}0.003{col 75}{space 4} .4407388{col 88}{space 3} 2.123436
+{txt}{space 33} {c |}
+{space 24}GFSN_CARD {c |}{col 35}{res}{space 2}        0{col 47}{txt}  (omitted)
+{space 33} {c |}
+{space 8}c.Uncertainty#c.GFSN_CARD {c |}{col 35}{res}{space 2} .3298533{col 47}{space 2} .1174901{col 58}{space 1}    2.81{col 67}{space 3}0.005{col 75}{space 4} .0995689{col 88}{space 3} .5601377
+{txt}{space 33} {c |}
+{space 14}Nonbank#c.GFSN_CARD {c |}
+{space 31}1  {c |}{col 35}{res}{space 2}        0{col 47}{txt}  (omitted)
+{space 33} {c |}
+Nonbank#c.Uncertainty#c.GFSN_CARD {c |}
+{space 31}1  {c |}{col 35}{res}{space 2}-.1759103{col 47}{space 2} .0900873{col 58}{space 1}   -1.95{col 67}{space 3}0.051{col 75}{space 4}-.3524843{col 88}{space 3} .0006638
+{txt}{space 33} {c |}
+{space 27}facamt {c |}{col 35}{res}{space 2}-.5884357{col 47}{space 2}  .221882{col 58}{space 1}   -2.65{col 67}{space 3}0.008{col 75}{space 4}-1.023332{col 88}{space 3}-.1535399
+{txt}{space 25}maturity {c |}{col 35}{res}{space 2} 5.409394{col 47}{space 2} .5731866{col 58}{space 1}    9.44{col 67}{space 3}0.000{col 75}{space 4}  4.28593{col 88}{space 3} 6.532858
+{txt}{space 25}loantype {c |}{col 35}{res}{space 2} 26.47443{col 47}{space 2} 2.324496{col 58}{space 1}   11.39{col 67}{space 3}0.000{col 75}{space 4} 21.91834{col 88}{space 3} 31.03051
+{txt}{space 24}seniority {c |}{col 35}{res}{space 2}-280.8136{col 47}{space 2} 4.822998{col 58}{space 1}  -58.22{col 67}{space 3}0.000{col 75}{space 4}-290.2669{col 88}{space 3}-271.3604
+{txt}{space 26}secured {c |}{col 35}{res}{space 2}-2.368648{col 47}{space 2} 1.701675{col 58}{space 1}   -1.39{col 67}{space 3}0.164{col 75}{space 4}-5.703985{col 88}{space 3} .9666883
+{txt}{space 23}num_lender {c |}{col 35}{res}{space 2}-.5380541{col 47}{space 2}   .04499{col 58}{space 1}  -11.96{col 67}{space 3}0.000{col 75}{space 4} -.626236{col 88}{space 3}-.4498723
+{txt}{space 28}_cons {c |}{col 35}{res}{space 2} 457.3957{col 47}{space 2} 5.700438{col 58}{space 1}   80.24{col 67}{space 3}0.000{col 75}{space 4} 446.2227{col 88}{space 3} 468.5687
+{txt}{hline 34}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    90589{col 29}{space 1}        0{col 41}{result}{space 1}    90589{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31593{col 29}{space 1}      301{col 41}{result}{space 1}    31292{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1716{col 29}{space 1}     1716{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2135{col 29}{space 1}     2135{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性救助能力.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.GFSN_CARD ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性救助能力.doc"'"':流动性救助能力.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性救助能力.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.IMFQuota $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25162 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}IMFQuota{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.IMFQuota{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,041,195
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}  33158{txt}){col 67}= {res}    401.08
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9358
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9274
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1786
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    33,159{txt}{col 51}Root MSE{col 67}= {res}   37.3183
+
+{txt}{ralign 98:(Std. err. adjusted for {res:33,159} clusters in {res:lcomid#bcid})}
+{hline 33}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 34}{c |}{col 46}    Robust
+{col 1}                          Spread{col 34}{c |} Coefficient{col 46}  std. err.{col 58}      t{col 66}   P>|t|{col 74}     [95% con{col 87}f. interval]
+{hline 33}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 21}Uncertainty {c |}{col 34}{res}{space 2} 4.073747{col 46}{space 2} .7411632{col 57}{space 1}    5.50{col 66}{space 3}0.000{col 74}{space 4} 2.621041{col 87}{space 3} 5.526453
+{txt}{space 23}1.Nonbank {c |}{col 34}{res}{space 2}        0{col 46}{txt}  (omitted)
+{space 32} {c |}
+{space 11}Nonbank#c.Uncertainty {c |}
+{space 30}1  {c |}{col 34}{res}{space 2} 1.956913{col 46}{space 2} .5007222{col 57}{space 1}    3.91{col 66}{space 3}0.000{col 74}{space 4} .9754795{col 87}{space 3} 2.938346
+{txt}{space 32} {c |}
+{space 24}IMFQuota {c |}{col 34}{res}{space 2}        0{col 46}{txt}  (omitted)
+{space 32} {c |}
+{space 8}c.Uncertainty#c.IMFQuota {c |}{col 34}{res}{space 2} .0149799{col 46}{space 2} .0073983{col 57}{space 1}    2.02{col 66}{space 3}0.043{col 74}{space 4} .0004789{col 87}{space 3} .0294809
+{txt}{space 32} {c |}
+{space 14}Nonbank#c.IMFQuota {c |}
+{space 30}1  {c |}{col 34}{res}{space 2}        0{col 46}{txt}  (omitted)
+{space 32} {c |}
+Nonbank#c.Uncertainty#c.IMFQuota {c |}
+{space 30}1  {c |}{col 34}{res}{space 2}-.0247135{col 46}{space 2} .0139262{col 57}{space 1}   -1.77{col 66}{space 3}0.076{col 74}{space 4}-.0520093{col 87}{space 3} .0025823
+{txt}{space 32} {c |}
+{space 26}facamt {c |}{col 34}{res}{space 2}-.5743853{col 46}{space 2} .2270118{col 57}{space 1}   -2.53{col 66}{space 3}0.011{col 74}{space 4}-1.019336{col 87}{space 3}-.1294341
+{txt}{space 24}maturity {c |}{col 34}{res}{space 2} 5.254688{col 46}{space 2} .5711251{col 57}{space 1}    9.20{col 66}{space 3}0.000{col 74}{space 4} 4.135263{col 87}{space 3} 6.374113
+{txt}{space 24}loantype {c |}{col 34}{res}{space 2} 27.13155{col 46}{space 2} 2.375307{col 57}{space 1}   11.42{col 66}{space 3}0.000{col 74}{space 4} 22.47586{col 87}{space 3} 31.78723
+{txt}{space 23}seniority {c |}{col 34}{res}{space 2}-280.8412{col 46}{space 2} 4.826858{col 57}{space 1}  -58.18{col 66}{space 3}0.000{col 74}{space 4} -290.302{col 87}{space 3}-271.3804
+{txt}{space 25}secured {c |}{col 34}{res}{space 2}-2.477568{col 46}{space 2}  1.71497{col 57}{space 1}   -1.44{col 66}{space 3}0.149{col 74}{space 4} -5.83897{col 87}{space 3} .8838343
+{txt}{space 22}num_lender {c |}{col 34}{res}{space 2}-.5409349{col 46}{space 2} .0452747{col 57}{space 1}  -11.95{col 66}{space 3}0.000{col 74}{space 4} -.629675{col 87}{space 3}-.4521948
+{txt}{space 27}_cons {c |}{col 34}{res}{space 2}  459.134{col 46}{space 2}   5.7407{col 57}{space 1}   79.98{col 66}{space 3}0.000{col 74}{space 4} 447.8821{col 87}{space 3}  470.386
+{txt}{hline 33}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    89981{col 29}{space 1}        0{col 41}{result}{space 1}    89981{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    29717{col 29}{space 1}      302{col 41}{result}{space 1}    29415{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1683{col 29}{space 1}     1683{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2132{col 29}{space 1}     2132{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性救助能力.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.IMFQuota ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性救助能力.doc"'"':流动性救助能力.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性救助能力.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.SwapAmount $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25394 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 53 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}SwapAmount{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.SwapAmount{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,063,875
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}  34936{txt}){col 67}= {res}    401.36
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9364
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9282
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1779
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    34,937{txt}{col 51}Root MSE{col 67}= {res}   36.9788
+
+{txt}{ralign 100:(Std. err. adjusted for {res:34,937} clusters in {res:lcomid#bcid})}
+{hline 35}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 36}{c |}{col 48}    Robust
+{col 1}                            Spread{col 36}{c |} Coefficient{col 48}  std. err.{col 60}      t{col 68}   P>|t|{col 76}     [95% con{col 89}f. interval]
+{hline 35}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 23}Uncertainty {c |}{col 36}{res}{space 2} 4.194904{col 48}{space 2} .7319668{col 59}{space 1}    5.73{col 68}{space 3}0.000{col 76}{space 4} 2.760226{col 89}{space 3} 5.629582
+{txt}{space 25}1.Nonbank {c |}{col 36}{res}{space 2}        0{col 48}{txt}  (omitted)
+{space 34} {c |}
+{space 13}Nonbank#c.Uncertainty {c |}
+{space 32}1  {c |}{col 36}{res}{space 2} 1.251191{col 48}{space 2} .4279241{col 59}{space 1}    2.92{col 68}{space 3}0.003{col 76}{space 4} .4124466{col 89}{space 3} 2.089936
+{txt}{space 34} {c |}
+{space 24}SwapAmount {c |}{col 36}{res}{space 2}        0{col 48}{txt}  (omitted)
+{space 34} {c |}
+{space 8}c.Uncertainty#c.SwapAmount {c |}{col 36}{res}{space 2} .0057758{col 48}{space 2} .0090034{col 59}{space 1}    0.64{col 68}{space 3}0.521{col 76}{space 4}-.0118712{col 89}{space 3} .0234227
+{txt}{space 34} {c |}
+{space 14}Nonbank#c.SwapAmount {c |}
+{space 32}1  {c |}{col 36}{res}{space 2}        0{col 48}{txt}  (omitted)
+{space 34} {c |}
+Nonbank#c.Uncertainty#c.SwapAmount {c |}
+{space 32}1  {c |}{col 36}{res}{space 2}-.0252582{col 48}{space 2} .0103007{col 59}{space 1}   -2.45{col 68}{space 3}0.014{col 76}{space 4}-.0454479{col 89}{space 3}-.0050686
+{txt}{space 34} {c |}
+{space 28}facamt {c |}{col 36}{res}{space 2}-.5885637{col 48}{space 2} .2218889{col 59}{space 1}   -2.65{col 68}{space 3}0.008{col 76}{space 4}-1.023473{col 89}{space 3}-.1536545
+{txt}{space 26}maturity {c |}{col 36}{res}{space 2} 5.409062{col 48}{space 2} .5731481{col 59}{space 1}    9.44{col 68}{space 3}0.000{col 76}{space 4} 4.285674{col 89}{space 3} 6.532451
+{txt}{space 26}loantype {c |}{col 36}{res}{space 2} 26.47463{col 48}{space 2}  2.32452{col 59}{space 1}   11.39{col 68}{space 3}0.000{col 76}{space 4}  21.9185{col 89}{space 3} 31.03077
+{txt}{space 25}seniority {c |}{col 36}{res}{space 2}-280.8125{col 48}{space 2}  4.82294{col 59}{space 1}  -58.22{col 68}{space 3}0.000{col 76}{space 4}-290.2656{col 89}{space 3}-271.3594
+{txt}{space 27}secured {c |}{col 36}{res}{space 2}-2.380519{col 48}{space 2} 1.701219{col 59}{space 1}   -1.40{col 68}{space 3}0.162{col 76}{space 4}-5.714962{col 89}{space 3} .9539244
+{txt}{space 24}num_lender {c |}{col 36}{res}{space 2}-.5379953{col 48}{space 2} .0449945{col 59}{space 1}  -11.96{col 68}{space 3}0.000{col 76}{space 4}-.6261859{col 89}{space 3}-.4498046
+{txt}{space 29}_cons {c |}{col 36}{res}{space 2} 457.4357{col 48}{space 2}  5.70106{col 59}{space 1}   80.24{col 68}{space 3}0.000{col 76}{space 4} 446.2614{col 89}{space 3} 468.6099
+{txt}{hline 35}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    90589{col 29}{space 1}        0{col 41}{result}{space 1}    90589{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31592{col 29}{space 1}      301{col 41}{result}{space 1}    31291{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1715{col 29}{space 1}     1715{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2135{col 29}{space 1}     2135{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性救助能力.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.SwapAmount ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性救助能力.doc"'"':流动性救助能力.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性救助能力.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.RFALendingCapacity $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) ///
+>         vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25397 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}RFALendingCapacity{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank#c.RFALendingCapacity{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,063,878
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  10{txt},{res}  34937{txt}){col 67}= {res}    404.68
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9364
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9282
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1779
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    34,938{txt}{col 51}Root MSE{col 67}= {res}   36.9787
+
+{txt}{ralign 108:(Std. err. adjusted for {res:34,938} clusters in {res:lcomid#bcid})}
+{hline 43}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 44}{c |}{col 56}    Robust
+{col 1}                                    Spread{col 44}{c |} Coefficient{col 56}  std. err.{col 68}      t{col 76}   P>|t|{col 84}     [95% con{col 97}f. interval]
+{hline 43}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 31}Uncertainty {c |}{col 44}{res}{space 2} 4.209518{col 56}{space 2} .8327006{col 67}{space 1}    5.06{col 76}{space 3}0.000{col 84}{space 4} 2.577399{col 97}{space 3} 5.841638
+{txt}{space 33}1.Nonbank {c |}{col 44}{res}{space 2}        0{col 56}{txt}  (omitted)
+{space 42} {c |}
+{space 21}Nonbank#c.Uncertainty {c |}
+{space 40}1  {c |}{col 44}{res}{space 2} 1.806078{col 56}{space 2} .4569758{col 67}{space 1}    3.95{col 76}{space 3}0.000{col 84}{space 4} .9103905{col 97}{space 3} 2.701765
+{txt}{space 42} {c |}
+{space 24}RFALendingCapacity {c |}{col 44}{res}{space 2}        0{col 56}{txt}  (omitted)
+{space 42} {c |}
+{space 8}c.Uncertainty#c.RFALendingCapacity {c |}{col 44}{res}{space 2}-.0585135{col 56}{space 2} 1.951247{col 67}{space 1}   -0.03{col 76}{space 3}0.976{col 84}{space 4} -3.88302{col 97}{space 3} 3.765993
+{txt}{space 42} {c |}
+{space 14}Nonbank#c.RFALendingCapacity {c |}
+{space 40}1  {c |}{col 44}{res}{space 2}        0{col 56}{txt}  (omitted)
+{space 42} {c |}
+Nonbank#c.Uncertainty#c.RFALendingCapacity {c |}
+{space 40}1  {c |}{col 44}{res}{space 2}-1.408027{col 56}{space 2} .6723007{col 67}{space 1}   -2.09{col 76}{space 3}0.036{col 84}{space 4}-2.725758{col 97}{space 3}-.0902963
+{txt}{space 42} {c |}
+{space 36}facamt {c |}{col 44}{res}{space 2}-.5886435{col 56}{space 2} .2220212{col 67}{space 1}   -2.65{col 76}{space 3}0.008{col 84}{space 4}-1.023812{col 97}{space 3}-.1534749
+{txt}{space 34}maturity {c |}{col 44}{res}{space 2} 5.409604{col 56}{space 2} .5729746{col 67}{space 1}    9.44{col 76}{space 3}0.000{col 84}{space 4} 4.286556{col 97}{space 3} 6.532653
+{txt}{space 34}loantype {c |}{col 44}{res}{space 2} 26.47438{col 56}{space 2} 2.325189{col 67}{space 1}   11.39{col 76}{space 3}0.000{col 84}{space 4} 21.91694{col 97}{space 3} 31.03183
+{txt}{space 33}seniority {c |}{col 44}{res}{space 2}-280.8127{col 56}{space 2} 4.822827{col 67}{space 1}  -58.23{col 76}{space 3}0.000{col 84}{space 4}-290.2656{col 97}{space 3}-271.3598
+{txt}{space 35}secured {c |}{col 44}{res}{space 2}-2.381878{col 56}{space 2} 1.696359{col 67}{space 1}   -1.40{col 76}{space 3}0.160{col 84}{space 4}-5.706795{col 97}{space 3} .9430396
+{txt}{space 32}num_lender {c |}{col 44}{res}{space 2}-.5380671{col 56}{space 2} .0450346{col 67}{space 1}  -11.95{col 76}{space 3}0.000{col 84}{space 4}-.6263364{col 97}{space 3}-.4497978
+{txt}{space 37}_cons {c |}{col 44}{res}{space 2} 457.4738{col 56}{space 2} 5.735979{col 67}{space 1}   79.76{col 76}{space 3}0.000{col 84}{space 4} 446.2311{col 97}{space 3} 468.7165
+{txt}{hline 43}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    90589{col 29}{space 1}        0{col 41}{result}{space 1}    90589{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31593{col 29}{space 1}      301{col 41}{result}{space 1}    31292{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1716{col 29}{space 1}     1716{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2135{col 29}{space 1}     2135{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 流动性救助能力.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.RFALendingCapacity ) ///
+>         adjr2 nocons
+{txt}{stata `"shellout using `"流动性救助能力.doc"'"':流动性救助能力.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "流动性救助能力.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. use "D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\企业层面数据.dta", clear
+
+. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         global firm_control b_Size b_ROA b_Leverage b_Liquidity
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Growth_ppe c.Uncertainty_Y##c.Nonbank_dependence $firm_control , absorb( bcomid countryid#year industryid#year) ///
+>         vce(cluster bcomid )
+{res}{txt}(dropped 6401 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 31 iterations)
+{res}{txt}note: {res}Uncertainty_Y{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}    28,629
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   6{txt},{res}   6799{txt}){col 67}= {res}    108.02
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.5583
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.3509
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1013
+{txt}{col 1}Number of clusters ({res}bcomid{txt}) {col 30}= {res}     6,800{txt}{col 51}Root MSE{col 67}= {res}    0.4416
+
+{txt}{ralign 102:(Std. err. adjusted for {res:6,800} clusters in {res:bcomid})}
+{hline 37}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 38}{c |}{col 50}    Robust
+{col 1}                          Growth_ppe{col 38}{c |} Coefficient{col 50}  std. err.{col 62}      t{col 70}   P>|t|{col 78}     [95% con{col 91}f. interval]
+{hline 37}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 23}Uncertainty_Y {c |}{col 38}{res}{space 2}        0{col 50}{txt}  (omitted)
+{space 18}Nonbank_dependence {c |}{col 38}{res}{space 2}-.0509726{col 50}{space 2} .0373583{col 61}{space 1}   -1.36{col 70}{space 3}0.172{col 78}{space 4}-.1242065{col 91}{space 3} .0222612
+{txt}{space 36} {c |}
+c.Uncertainty_Y#c.Nonbank_dependence {c |}{col 38}{res}{space 2} -.075701{col 50}{space 2} .0394561{col 61}{space 1}   -1.92{col 70}{space 3}0.055{col 78}{space 4}-.1530473{col 91}{space 3} .0016452
+{txt}{space 36} {c |}
+{space 30}b_Size {c |}{col 38}{res}{space 2}-.2398929{col 50}{space 2} .0128919{col 61}{space 1}  -18.61{col 70}{space 3}0.000{col 78}{space 4}-.2651651{col 91}{space 3}-.2146206
+{txt}{space 31}b_ROA {c |}{col 38}{res}{space 2} .6190816{col 50}{space 2} .0527314{col 61}{space 1}   11.74{col 70}{space 3}0.000{col 78}{space 4} .5157115{col 91}{space 3} .7224517
+{txt}{space 26}b_Leverage {c |}{col 38}{res}{space 2} .1333739{col 50}{space 2} .0290982{col 61}{space 1}    4.58{col 70}{space 3}0.000{col 78}{space 4} .0763322{col 91}{space 3} .1904155
+{txt}{space 25}b_Liquidity {c |}{col 38}{res}{space 2} .0640237{col 50}{space 2} .0065732{col 61}{space 1}    9.74{col 70}{space 3}0.000{col 78}{space 4} .0511381{col 91}{space 3} .0769093
+{txt}{space 31}_cons {c |}{col 38}{res}{space 2} 1.777593{col 50}{space 2} .0933783{col 61}{space 1}   19.04{col 70}{space 3}0.000{col 78}{space 4} 1.594542{col 91}{space 3} 1.960644
+{txt}{hline 37}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 19}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}       Absorbed FE{col 20}{c |} Categories{col 33} - Redundant{col 45}  = Num. Coefs{col 60}{c |}
+{res}{col 1}{text}{hline 19}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}            bcomid{col 20}{c |}{space 1}     6800{col 33}{space 1}     6800{col 45}{result}{space 1}        0{col 59}{text}*{col 60}{c |}
+{res}{col 1}{text}    countryid#year{col 20}{c |}{space 1}      644{col 33}{space 1}        1{col 45}{result}{space 1}      643{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}   industryid#year{col 20}{c |}{space 1}     1730{col 33}{space 1}       31{col 45}{result}{space 1}     1699{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}{hline 19}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+* = FE nested within cluster; treated as redundant for DoF computation
+{res}{txt}
+{com}.         outreg2 using 企业经济影响.doc,replace tstat bdec(3) tdec(3) keep( Nonbank_dependence c.Uncertainty_Y#c.Nonbank_dependence  ) adjr2 nocons
+{txt}{stata `"shellout using `"企业经济影响.doc"'"':企业经济影响.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "企业经济影响.txt""':seeout}
+
+{com}.         
+.         reghdfe Growth_rev c.Uncertainty_Y##c.Nonbank_dependence $firm_control , absorb( bcomid countryid#year industryid#year) ///
+>         vce(cluster bcomid )
+{res}{txt}(dropped 6431 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 33 iterations)
+{res}{txt}note: {res}Uncertainty_Y{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}    28,702
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   6{txt},{res}   6804{txt}){col 67}= {res}     72.88
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.5708
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.3703
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0897
+{txt}{col 1}Number of clusters ({res}bcomid{txt}) {col 30}= {res}     6,805{txt}{col 51}Root MSE{col 67}= {res}    0.3958
+
+{txt}{ralign 102:(Std. err. adjusted for {res:6,805} clusters in {res:bcomid})}
+{hline 37}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 38}{c |}{col 50}    Robust
+{col 1}                          Growth_rev{col 38}{c |} Coefficient{col 50}  std. err.{col 62}      t{col 70}   P>|t|{col 78}     [95% con{col 91}f. interval]
+{hline 37}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 23}Uncertainty_Y {c |}{col 38}{res}{space 2}        0{col 50}{txt}  (omitted)
+{space 18}Nonbank_dependence {c |}{col 38}{res}{space 2}-.0846053{col 50}{space 2} .0343833{col 61}{space 1}   -2.46{col 70}{space 3}0.014{col 78}{space 4}-.1520074{col 91}{space 3}-.0172033
+{txt}{space 36} {c |}
+c.Uncertainty_Y#c.Nonbank_dependence {c |}{col 38}{res}{space 2}-.0910907{col 50}{space 2} .0364144{col 61}{space 1}   -2.50{col 70}{space 3}0.012{col 78}{space 4}-.1624744{col 91}{space 3}-.0197069
+{txt}{space 36} {c |}
+{space 30}b_Size {c |}{col 38}{res}{space 2}-.2292821{col 50}{space 2} .0116902{col 61}{space 1}  -19.61{col 70}{space 3}0.000{col 78}{space 4}-.2521986{col 91}{space 3}-.2063657
+{txt}{space 31}b_ROA {c |}{col 38}{res}{space 2} .0684051{col 50}{space 2} .0498549{col 61}{space 1}    1.37{col 70}{space 3}0.170{col 78}{space 4}-.0293261{col 91}{space 3} .1661364
+{txt}{space 26}b_Leverage {c |}{col 38}{res}{space 2}-.0274526{col 50}{space 2} .0250725{col 61}{space 1}   -1.09{col 70}{space 3}0.274{col 78}{space 4}-.0766025{col 91}{space 3} .0216973
+{txt}{space 25}b_Liquidity {c |}{col 38}{res}{space 2} .0317393{col 50}{space 2} .0067345{col 61}{space 1}    4.71{col 70}{space 3}0.000{col 78}{space 4} .0185376{col 91}{space 3} .0449411
+{txt}{space 31}_cons {c |}{col 38}{res}{space 2} 1.808821{col 50}{space 2} .0857142{col 61}{space 1}   21.10{col 70}{space 3}0.000{col 78}{space 4} 1.640794{col 91}{space 3} 1.976848
+{txt}{hline 37}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 19}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}       Absorbed FE{col 20}{c |} Categories{col 33} - Redundant{col 45}  = Num. Coefs{col 60}{c |}
+{res}{col 1}{text}{hline 19}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}            bcomid{col 20}{c |}{space 1}     6805{col 33}{space 1}     6805{col 45}{result}{space 1}        0{col 59}{text}*{col 60}{c |}
+{res}{col 1}{text}    countryid#year{col 20}{c |}{space 1}      657{col 33}{space 1}        1{col 45}{result}{space 1}      656{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}   industryid#year{col 20}{c |}{space 1}     1705{col 33}{space 1}       31{col 45}{result}{space 1}     1674{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}{hline 19}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+* = FE nested within cluster; treated as redundant for DoF computation
+{res}{txt}
+{com}.         outreg2 using 企业经济影响.doc,append tstat bdec(3) tdec(3) keep( Nonbank_dependence c.Uncertainty_Y#c.Nonbank_dependence  ) adjr2 nocons
+{txt}{stata `"shellout using `"企业经济影响.doc"'"':企业经济影响.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "企业经济影响.txt""':seeout}
+
+{com}.         
+.         reghdfe Growth_emp c.Uncertainty_Y##c.Nonbank_dependence $firm_control , absorb( bcomid countryid#year industryid#year) ///
+>         vce(cluster bcomid )
+{res}{txt}(dropped 5475 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 33 iterations)
+{res}{txt}note: {res}Uncertainty_Y{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}    24,782
+{txt}Absorbing 3 HDFE groups{col 51}F({res}   6{txt},{res}   5775{txt}){col 67}= {res}    131.46
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.5073
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.2753
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0989
+{txt}{col 1}Number of clusters ({res}bcomid{txt}) {col 30}= {res}     5,776{txt}{col 51}Root MSE{col 67}= {res}    0.3130
+
+{txt}{ralign 102:(Std. err. adjusted for {res:5,776} clusters in {res:bcomid})}
+{hline 37}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 38}{c |}{col 50}    Robust
+{col 1}                          Growth_emp{col 38}{c |} Coefficient{col 50}  std. err.{col 62}      t{col 70}   P>|t|{col 78}     [95% con{col 91}f. interval]
+{hline 37}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 23}Uncertainty_Y {c |}{col 38}{res}{space 2}        0{col 50}{txt}  (omitted)
+{space 18}Nonbank_dependence {c |}{col 38}{res}{space 2}-.0276854{col 50}{space 2} .0283299{col 61}{space 1}   -0.98{col 70}{space 3}0.328{col 78}{space 4}-.0832226{col 91}{space 3} .0278517
+{txt}{space 36} {c |}
+c.Uncertainty_Y#c.Nonbank_dependence {c |}{col 38}{res}{space 2}-.0683925{col 50}{space 2} .0315415{col 61}{space 1}   -2.17{col 70}{space 3}0.030{col 78}{space 4}-.1302257{col 91}{space 3}-.0065593
+{txt}{space 36} {c |}
+{space 30}b_Size {c |}{col 38}{res}{space 2}-.1677104{col 50}{space 2} .0078042{col 61}{space 1}  -21.49{col 70}{space 3}0.000{col 78}{space 4}-.1830097{col 91}{space 3}-.1524112
+{txt}{space 31}b_ROA {c |}{col 38}{res}{space 2} .4504912{col 50}{space 2} .0381958{col 61}{space 1}   11.79{col 70}{space 3}0.000{col 78}{space 4} .3756132{col 91}{space 3} .5253693
+{txt}{space 26}b_Leverage {c |}{col 38}{res}{space 2}  .080467{col 50}{space 2} .0218985{col 61}{space 1}    3.67{col 70}{space 3}0.000{col 78}{space 4} .0375377{col 91}{space 3} .1233963
+{txt}{space 25}b_Liquidity {c |}{col 38}{res}{space 2}  .054668{col 50}{space 2} .0051761{col 61}{space 1}   10.56{col 70}{space 3}0.000{col 78}{space 4}  .044521{col 91}{space 3}  .064815
+{txt}{space 31}_cons {c |}{col 38}{res}{space 2} 1.180857{col 50}{space 2} .0565633{col 61}{space 1}   20.88{col 70}{space 3}0.000{col 78}{space 4} 1.069972{col 91}{space 3} 1.291743
+{txt}{hline 37}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 19}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}       Absorbed FE{col 20}{c |} Categories{col 33} - Redundant{col 45}  = Num. Coefs{col 60}{c |}
+{res}{col 1}{text}{hline 19}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}            bcomid{col 20}{c |}{space 1}     5776{col 33}{space 1}     5776{col 45}{result}{space 1}        0{col 59}{text}*{col 60}{c |}
+{res}{col 1}{text}    countryid#year{col 20}{c |}{space 1}      507{col 33}{space 1}        1{col 45}{result}{space 1}      506{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}   industryid#year{col 20}{c |}{space 1}     1679{col 33}{space 1}       31{col 45}{result}{space 1}     1648{col 59}{text} {col 60}{c |}
+{res}{col 1}{text}{hline 19}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+* = FE nested within cluster; treated as redundant for DoF computation
+{res}{txt}
+{com}.         outreg2 using 企业经济影响.doc,append tstat bdec(3) tdec(3) keep( Nonbank_dependence c.Uncertainty_Y#c.Nonbank_dependence  ) adjr2 nocons  
+{txt}{stata `"shellout using `"企业经济影响.doc"'"':企业经济影响.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "企业经济影响.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. use "D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\贷款层面数据.dta", clear
+
+. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.VIX##i.Nonbank $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 24313 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,109,868
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  37021{txt}){col 67}= {res}    527.23
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9386
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9309
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1830
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,022{txt}{col 51}Root MSE{col 67}= {res}   35.7604
+
+{txt}{ralign 79:(Std. err. adjusted for {res:37,022} clusters in {res:lcomid#bcid})}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}       Spread{col 15}{c |} Coefficient{col 27}  std. err.{col 39}      t{col 47}   P>|t|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}VIX {c |}{col 15}{res}{space 2} .4219506{col 27}{space 2} .0814899{col 38}{space 1}    5.18{col 47}{space 3}0.000{col 55}{space 4}  .262228{col 68}{space 3} .5816731
+{txt}{space 4}1.Nonbank {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (omitted)
+{space 13} {c |}
+Nonbank#c.VIX {c |}
+{space 11}1  {c |}{col 15}{res}{space 2} .0789017{col 27}{space 2} .0376907{col 38}{space 1}    2.09{col 47}{space 3}0.036{col 55}{space 4} .0050268{col 68}{space 3} .1527766
+{txt}{space 13} {c |}
+{space 7}facamt {c |}{col 15}{res}{space 2}-.7656945{col 27}{space 2}  .208134{col 38}{space 1}   -3.68{col 47}{space 3}0.000{col 55}{space 4}-1.173643{col 68}{space 3} -.357746
+{txt}{space 5}maturity {c |}{col 15}{res}{space 2} 8.580603{col 27}{space 2}  .541218{col 38}{space 1}   15.85{col 47}{space 3}0.000{col 55}{space 4}   7.5198{col 68}{space 3} 9.641405
+{txt}{space 5}loantype {c |}{col 15}{res}{space 2}  25.1844{col 27}{space 2} 2.224229{col 38}{space 1}   11.32{col 47}{space 3}0.000{col 55}{space 4} 20.82485{col 68}{space 3} 29.54395
+{txt}{space 4}seniority {c |}{col 15}{res}{space 2}-280.8011{col 27}{space 2} 4.812661{col 38}{space 1}  -58.35{col 47}{space 3}0.000{col 55}{space 4}-290.2341{col 68}{space 3}-271.3682
+{txt}{space 6}secured {c |}{col 15}{res}{space 2}-4.035673{col 27}{space 2} 1.636478{col 38}{space 1}   -2.47{col 47}{space 3}0.014{col 55}{space 4}-7.243217{col 68}{space 3}-.8281299
+{txt}{space 3}num_lender {c |}{col 15}{res}{space 2}-.6404648{col 27}{space 2} .0464592{col 38}{space 1}  -13.79{col 47}{space 3}0.000{col 55}{space 4}-.7315261{col 68}{space 3}-.5494034
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} 438.5474{col 27}{space 2} 5.856207{col 38}{space 1}   74.89{col 47}{space 3}0.000{col 55}{space 4}  427.069{col 68}{space 3} 450.0257
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    91488{col 29}{space 1}        0{col 41}{result}{space 1}    91488{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    32615{col 29}{space 1}      242{col 41}{result}{space 1}    32373{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1757{col 29}{space 1}     1757{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2115{col 29}{space 1}     2115{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-替换不确定性指标.doc,replace tstat bdec(3) tdec(3) keep( VIX c.VIX#i.Nonbank) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-替换不确定性指标.doc"'"':稳健性检验-替换不确定性指标.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-替换不确定性指标.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.GF##i.Nonbank $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 18582 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 50 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   964,875
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  33247{txt}){col 67}= {res}    543.07
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9353
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9272
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1948
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    33,248{txt}{col 51}Root MSE{col 67}= {res}   37.2752
+
+{txt}{ralign 78:(Std. err. adjusted for {res:33,248} clusters in {res:lcomid#bcid})}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}      Spread{col 14}{c |} Coefficient{col 26}  std. err.{col 38}      t{col 46}   P>|t|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}GF {c |}{col 14}{res}{space 2} 11.75886{col 26}{space 2} .9066996{col 37}{space 1}   12.97{col 46}{space 3}0.000{col 54}{space 4} 9.981699{col 67}{space 3} 13.53603
+{txt}{space 3}1.Nonbank {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
+{space 12} {c |}
+Nonbank#c.GF {c |}
+{space 10}1  {c |}{col 14}{res}{space 2} 1.656362{col 26}{space 2} .4953623{col 37}{space 1}    3.34{col 46}{space 3}0.001{col 54}{space 4} .6854342{col 67}{space 3} 2.627289
+{txt}{space 12} {c |}
+{space 6}facamt {c |}{col 14}{res}{space 2}-.5621826{col 26}{space 2} .2196896{col 37}{space 1}   -2.56{col 46}{space 3}0.011{col 54}{space 4}-.9927819{col 67}{space 3}-.1315832
+{txt}{space 4}maturity {c |}{col 14}{res}{space 2} 9.592032{col 26}{space 2} .6303484{col 37}{space 1}   15.22{col 46}{space 3}0.000{col 54}{space 4} 8.356527{col 67}{space 3} 10.82754
+{txt}{space 4}loantype {c |}{col 14}{res}{space 2} 28.60263{col 26}{space 2} 2.569316{col 37}{space 1}   11.13{col 46}{space 3}0.000{col 54}{space 4} 23.56668{col 67}{space 3} 33.63858
+{txt}{space 3}seniority {c |}{col 14}{res}{space 2}-282.1997{col 26}{space 2} 4.797384{col 37}{space 1}  -58.82{col 46}{space 3}0.000{col 54}{space 4}-291.6028{col 67}{space 3}-272.7967
+{txt}{space 5}secured {c |}{col 14}{res}{space 2}-6.919073{col 26}{space 2} 1.791364{col 37}{space 1}   -3.86{col 46}{space 3}0.000{col 54}{space 4}-10.43021{col 67}{space 3}-3.407936
+{txt}{space 2}num_lender {c |}{col 14}{res}{space 2}-.6418447{col 26}{space 2} .0532212{col 37}{space 1}  -12.06{col 46}{space 3}0.000{col 54}{space 4}-.7461602{col 67}{space 3}-.5375292
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 449.1086{col 26}{space 2} 5.729717{col 37}{space 1}   78.38{col 46}{space 3}0.000{col 54}{space 4} 437.8781{col 67}{space 3}  460.339
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    79862{col 29}{space 1}        0{col 41}{result}{space 1}    79862{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    27364{col 29}{space 1}      137{col 41}{result}{space 1}    27227{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1475{col 29}{space 1}     1475{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1805{col 29}{space 1}     1805{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-替换不确定性指标.doc,append tstat bdec(3) tdec(3) keep( GF c.GF#i.Nonbank) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-替换不确定性指标.doc"'"':稳健性检验-替换不确定性指标.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-替换不确定性指标.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.EPU##i.Nonbank $loan_control , absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 18690 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   975,160
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  33442{txt}){col 67}= {res}    529.89
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9353
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9272
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1923
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    33,443{txt}{col 51}Root MSE{col 67}= {res}   37.3042
+
+{txt}{ralign 79:(Std. err. adjusted for {res:33,443} clusters in {res:lcomid#bcid})}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}       Spread{col 15}{c |} Coefficient{col 27}  std. err.{col 39}      t{col 47}   P>|t|{col 55}     [95% con{col 68}f. interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}EPU {c |}{col 15}{res}{space 2} .0428822{col 27}{space 2}  .011565{col 38}{space 1}    3.71{col 47}{space 3}0.000{col 55}{space 4} .0202144{col 68}{space 3} .0655501
+{txt}{space 4}1.Nonbank {c |}{col 15}{res}{space 2}        0{col 27}{txt}  (omitted)
+{space 13} {c |}
+Nonbank#c.EPU {c |}
+{space 11}1  {c |}{col 15}{res}{space 2} .0087904{col 27}{space 2} .0052022{col 38}{space 1}    1.69{col 47}{space 3}0.091{col 55}{space 4}-.0014062{col 68}{space 3} .0189869
+{txt}{space 13} {c |}
+{space 7}facamt {c |}{col 15}{res}{space 2}-.5996186{col 27}{space 2}  .219026{col 38}{space 1}   -2.74{col 47}{space 3}0.006{col 55}{space 4}-1.028917{col 68}{space 3}  -.17032
+{txt}{space 5}maturity {c |}{col 15}{res}{space 2} 9.458628{col 27}{space 2} .6229152{col 38}{space 1}   15.18{col 47}{space 3}0.000{col 55}{space 4} 8.237693{col 68}{space 3} 10.67956
+{txt}{space 5}loantype {c |}{col 15}{res}{space 2} 28.61857{col 27}{space 2}  2.54927{col 38}{space 1}   11.23{col 47}{space 3}0.000{col 55}{space 4} 23.62191{col 68}{space 3} 33.61522
+{txt}{space 4}seniority {c |}{col 15}{res}{space 2}-282.0676{col 27}{space 2} 4.799228{col 38}{space 1}  -58.77{col 47}{space 3}0.000{col 55}{space 4}-291.4742{col 68}{space 3}-272.6609
+{txt}{space 6}secured {c |}{col 15}{res}{space 2} -5.92311{col 27}{space 2} 1.768431{col 38}{space 1}   -3.35{col 47}{space 3}0.001{col 55}{space 4}-9.389296{col 68}{space 3}-2.456925
+{txt}{space 3}num_lender {c |}{col 15}{res}{space 2}-.6674876{col 27}{space 2} .0536066{col 38}{space 1}  -12.45{col 47}{space 3}0.000{col 55}{space 4}-.7725584{col 68}{space 3}-.5624168
+{txt}{space 8}_cons {c |}{col 15}{res}{space 2} 444.5541{col 27}{space 2} 5.807319{col 38}{space 1}   76.55{col 47}{space 3}0.000{col 55}{space 4} 433.1715{col 68}{space 3} 455.9366
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    80716{col 29}{space 1}        0{col 41}{result}{space 1}    80716{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    27511{col 29}{space 1}      140{col 41}{result}{space 1}    27371{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1477{col 29}{space 1}     1477{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1810{col 29}{space 1}     1810{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-替换不确定性指标.doc,append tstat bdec(3) tdec(3) keep( EPU c.EPU#i.Nonbank) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-替换不确定性指标.doc"'"':稳健性检验-替换不确定性指标.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-替换不确定性指标.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control if Leadbank==1, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 15878 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 41 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   314,943
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  25124{txt}){col 67}= {res}    224.53
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9432
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9330
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1876
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    25,125{txt}{col 51}Root MSE{col 67}= {res}   36.1740
+
+{txt}{ralign 87:(Std. err. adjusted for {res:25,125} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 4.355622{col 35}{space 2} 1.266374{col 46}{space 1}    3.44{col 55}{space 3}0.001{col 63}{space 4} 1.873454{col 76}{space 3}  6.83779
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2}   2.2895{col 35}{space 2} .8123049{col 46}{space 1}    2.82{col 55}{space 3}0.005{col 63}{space 4} .6973347{col 76}{space 3} 3.881665
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-.9776377{col 35}{space 2} .2068745{col 46}{space 1}   -4.73{col 55}{space 3}0.000{col 63}{space 4}-1.383124{col 76}{space 3}-.5721515
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 15.96629{col 35}{space 2} .6874381{col 46}{space 1}   23.23{col 55}{space 3}0.000{col 63}{space 4} 14.61887{col 76}{space 3} 17.31371
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 23.60845{col 35}{space 2} 2.367415{col 46}{space 1}    9.97{col 55}{space 3}0.000{col 63}{space 4} 18.96818{col 76}{space 3} 28.24872
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-239.6064{col 35}{space 2} 8.696061{col 46}{space 1}  -27.55{col 55}{space 3}0.000{col 63}{space 4}-256.6512{col 76}{space 3}-222.5617
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-15.64978{col 35}{space 2} 2.479581{col 46}{space 1}   -6.31{col 55}{space 3}0.000{col 63}{space 4} -20.5099{col 76}{space 3}-10.78965
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.5351112{col 35}{space 2} .0532283{col 46}{space 1}  -10.05{col 55}{space 3}0.000{col 63}{space 4}-.6394418{col 76}{space 3}-.4307807
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 374.4086{col 35}{space 2} 9.389465{col 46}{space 1}   39.88{col 55}{space 3}0.000{col 63}{space 4} 356.0047{col 76}{space 3} 392.8125
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    30262{col 29}{space 1}        0{col 41}{result}{space 1}    30262{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    18102{col 29}{space 1}      412{col 41}{result}{space 1}    17690{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1560{col 29}{space 1}     1560{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1945{col 29}{space 1}     1945{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-调整贷款层面样本.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-调整贷款层面样本.doc"'"':稳健性检验-调整贷款层面样本.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-调整贷款层面样本.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. use "D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\稳健性检验2-加权平均利差.dta", clear
+
+. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread_w c.Uncertainty##i.Nonbank maturity_w facamt_w num_lender_w loantype_w seniority_w secured_w, ///
+>         absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 36641 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 44 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   718,942
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  35060{txt}){col 67}= {res}    129.47
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9766
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9722
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.0632
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    35,061{txt}{col 51}Root MSE{col 67}= {res}   21.0753
+
+{txt}{ralign 87:(Std. err. adjusted for {res:35,061} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}             Spread_w{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 4.072135{col 35}{space 2}  .654916{col 46}{space 1}    6.22{col 55}{space 3}0.000{col 63}{space 4} 2.788479{col 76}{space 3} 5.355791
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.497383{col 35}{space 2} .4830703{col 46}{space 1}    3.10{col 55}{space 3}0.002{col 63}{space 4} .5505501{col 76}{space 3} 2.444216
+{txt}{space 21} {c |}
+{space 11}maturity_w {c |}{col 23}{res}{space 2}-3.140045{col 35}{space 2} .6142088{col 46}{space 1}   -5.11{col 55}{space 3}0.000{col 63}{space 4}-4.343914{col 76}{space 3}-1.936176
+{txt}{space 13}facamt_w {c |}{col 23}{res}{space 2} 2.608267{col 35}{space 2} .3937215{col 46}{space 1}    6.62{col 55}{space 3}0.000{col 63}{space 4}  1.83656{col 76}{space 3} 3.379973
+{txt}{space 9}num_lender_w {c |}{col 23}{res}{space 2}-.2979752{col 35}{space 2} .0283764{col 46}{space 1}  -10.50{col 55}{space 3}0.000{col 63}{space 4}-.3535939{col 76}{space 3}-.2423565
+{txt}{space 11}loantype_w {c |}{col 23}{res}{space 2} 22.40077{col 35}{space 2} 1.619442{col 46}{space 1}   13.83{col 55}{space 3}0.000{col 63}{space 4} 19.22662{col 76}{space 3} 25.57493
+{txt}{space 10}seniority_w {c |}{col 23}{res}{space 2}-226.7919{col 35}{space 2}  10.9882{col 46}{space 1}  -20.64{col 55}{space 3}0.000{col 63}{space 4}-248.3291{col 76}{space 3}-205.2546
+{txt}{space 12}secured_w {c |}{col 23}{res}{space 2} 9.059251{col 35}{space 2} 1.864962{col 46}{space 1}    4.86{col 55}{space 3}0.000{col 63}{space 4} 5.403866{col 76}{space 3} 12.71463
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 352.0661{col 35}{space 2} 12.56738{col 46}{space 1}   28.01{col 55}{space 3}0.000{col 63}{space 4} 327.4336{col 76}{space 3} 376.6985
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    87812{col 29}{space 1}        0{col 41}{result}{space 1}    87812{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    28013{col 29}{space 1}       73{col 41}{result}{space 1}    27940{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1713{col 29}{space 1}     1713{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2132{col 29}{space 1}     2132{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-调整贷款层面样本.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-调整贷款层面样本.doc"'"':稳健性检验-调整贷款层面样本.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-调整贷款层面样本.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. use "D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\贷款层面数据.dta", clear
+
+. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control if US_lender!=1, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 20802 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 40 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   681,351
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  31264{txt}){col 67}= {res}    363.56
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9412
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9330
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.2412
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    31,265{txt}{col 51}Root MSE{col 67}= {res}   33.5113
+
+{txt}{ralign 87:(Std. err. adjusted for {res:31,265} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 2.250939{col 35}{space 2} .7754831{col 46}{space 1}    2.90{col 55}{space 3}0.004{col 63}{space 4} .7309607{col 76}{space 3} 3.770916
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.051581{col 35}{space 2} .3899503{col 46}{space 1}    2.70{col 55}{space 3}0.007{col 63}{space 4} .2872626{col 76}{space 3} 1.815899
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-.2222036{col 35}{space 2} .1563739{col 46}{space 1}   -1.42{col 55}{space 3}0.155{col 63}{space 4}-.5287028{col 76}{space 3} .0842955
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2}  8.87949{col 35}{space 2} .7631268{col 46}{space 1}   11.64{col 55}{space 3}0.000{col 63}{space 4} 7.383731{col 76}{space 3} 10.37525
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 17.10642{col 35}{space 2} 2.507157{col 46}{space 1}    6.82{col 55}{space 3}0.000{col 63}{space 4} 12.19229{col 76}{space 3} 22.02054
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-281.7139{col 35}{space 2} 5.496515{col 46}{space 1}  -51.25{col 55}{space 3}0.000{col 63}{space 4}-292.4873{col 76}{space 3}-270.9405
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-6.717969{col 35}{space 2} 2.045989{col 46}{space 1}   -3.28{col 55}{space 3}0.001{col 63}{space 4}-10.72819{col 76}{space 3}-2.707748
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.4367042{col 35}{space 2} .0485568{col 46}{space 1}   -8.99{col 55}{space 3}0.000{col 63}{space 4}-.5318774{col 76}{space 3} -.341531
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 417.6626{col 35}{space 2} 6.226189{col 46}{space 1}   67.08{col 55}{space 3}0.000{col 63}{space 4}  405.459{col 76}{space 3} 429.8662
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    60094{col 29}{space 1}        0{col 41}{result}{space 1}    60094{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    23885{col 29}{space 1}      146{col 41}{result}{space 1}    23739{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1795{col 29}{space 1}     1795{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2110{col 29}{space 1}     2110{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-排除特定国家或地区贷款人.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-排除特定国家或地区贷款人.doc"'"':稳健性检验-排除特定国家或地区贷款人.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-排除特定国家或地区贷款人.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control if IFC!=1, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 19211 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 42 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res}   413,849
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  20024{txt}){col 67}= {res}    168.16
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9421
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9312
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.2078
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    20,025{txt}{col 51}Root MSE{col 67}= {res}   34.6162
+
+{txt}{ralign 87:(Std. err. adjusted for {res:20,025} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 3.958793{col 35}{space 2} 1.046384{col 46}{space 1}    3.78{col 55}{space 3}0.000{col 63}{space 4} 1.907794{col 76}{space 3} 6.009793
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.730526{col 35}{space 2} .5545551{col 46}{space 1}    3.12{col 55}{space 3}0.002{col 63}{space 4}  .643552{col 76}{space 3} 2.817499
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2} -.226221{col 35}{space 2}  .196355{col 46}{space 1}   -1.15{col 55}{space 3}0.249{col 63}{space 4}-.6110929{col 76}{space 3} .1586509
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 9.831771{col 35}{space 2} 1.072633{col 46}{space 1}    9.17{col 55}{space 3}0.000{col 63}{space 4} 7.729322{col 76}{space 3} 11.93422
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 17.52102{col 35}{space 2} 3.380512{col 46}{space 1}    5.18{col 55}{space 3}0.000{col 63}{space 4} 10.89494{col 76}{space 3}  24.1471
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-267.0204{col 35}{space 2} 7.782381{col 46}{space 1}  -34.31{col 55}{space 3}0.000{col 63}{space 4}-282.2745{col 76}{space 3}-251.7663
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-8.631168{col 35}{space 2} 2.381796{col 46}{space 1}   -3.62{col 55}{space 3}0.000{col 63}{space 4}-13.29968{col 76}{space 3}-3.962652
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.4505361{col 35}{space 2} .0692708{col 46}{space 1}   -6.50{col 55}{space 3}0.000{col 63}{space 4}-.5863125{col 76}{space 3}-.3147597
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 406.6219{col 35}{space 2} 9.017871{col 46}{space 1}   45.09{col 55}{space 3}0.000{col 63}{space 4} 388.9462{col 76}{space 3} 424.2977
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    48994{col 29}{space 1}        0{col 41}{result}{space 1}    48994{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    16354{col 29}{space 1}      163{col 41}{result}{space 1}    16191{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1633{col 29}{space 1}     1633{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2047{col 29}{space 1}     2047{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-排除特定国家或地区贷款人.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-排除特定国家或地区贷款人.doc"'"':稳健性检验-排除特定国家或地区贷款人.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-排除特定国家或地区贷款人.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank $loan_control if Tax_Haven!=1, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25326 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,110,088
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  35333{txt}){col 67}= {res}    498.50
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9366
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9286
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1745
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    35,334{txt}{col 51}Root MSE{col 67}= {res}   36.4343
+
+{txt}{ralign 87:(Std. err. adjusted for {res:35,334} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 4.061827{col 35}{space 2} .7197801{col 46}{space 1}    5.64{col 55}{space 3}0.000{col 63}{space 4} 2.651036{col 76}{space 3} 5.472619
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.329236{col 35}{space 2} .4387176{col 46}{space 1}    3.03{col 55}{space 3}0.002{col 63}{space 4} .4693359{col 76}{space 3} 2.189136
+{txt}{space 21} {c |}
+{space 15}facamt {c |}{col 23}{res}{space 2}-.5596107{col 35}{space 2}  .207131{col 46}{space 1}   -2.70{col 55}{space 3}0.007{col 63}{space 4}-.9655938{col 76}{space 3}-.1536276
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 5.439461{col 35}{space 2}  .563453{col 46}{space 1}    9.65{col 55}{space 3}0.000{col 63}{space 4} 4.335075{col 76}{space 3} 6.543846
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 24.55721{col 35}{space 2} 2.190702{col 46}{space 1}   11.21{col 55}{space 3}0.000{col 63}{space 4} 20.26337{col 76}{space 3} 28.85106
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-280.9153{col 35}{space 2}  4.81093{col 46}{space 1}  -58.39{col 55}{space 3}0.000{col 63}{space 4}-290.3448{col 76}{space 3}-271.4857
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-3.821937{col 35}{space 2} 1.598087{col 46}{space 1}   -2.39{col 55}{space 3}0.017{col 63}{space 4}-6.954239{col 76}{space 3}-.6896363
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.5444258{col 35}{space 2} .0452741{col 46}{space 1}  -12.03{col 55}{space 3}0.000{col 63}{space 4}-.6331645{col 76}{space 3}-.4556871
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 455.1949{col 35}{space 2}  5.57451{col 46}{space 1}   81.66{col 55}{space 3}0.000{col 63}{space 4} 444.2686{col 76}{space 3} 466.1211
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    92975{col 29}{space 1}        0{col 41}{result}{space 1}    92975{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    31636{col 29}{space 1}      289{col 41}{result}{space 1}    31347{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1730{col 29}{space 1}     1730{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2148{col 29}{space 1}     2148{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-排除特定国家或地区贷款人.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty ) adjr2 nocons
+{txt}{stata `"shellout using `"稳健性检验-排除特定国家或地区贷款人.doc"'"':稳健性检验-排除特定国家或地区贷款人.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-排除特定国家或地区贷款人.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         gen Uncertainty_Nonbank= Uncertainty*Nonbank 
+{txt}
+{com}.         gen xziv = EPU*Nonbank
+{txt}(164,957 missing values generated)
+
+{com}.     egen id2=group(lcomid bcid)
+{res}{txt}
+{com}.         gen xziv_UK = UK_EPU* Nonbank 
+{txt}(211,193 missing values generated)
+
+{com}.     gen xziv_US = US_EPU* Nonbank
+{txt}
+{com}.     ivreghdfe Spread ( Uncertainty Uncertainty_Nonbank = EPU xziv ) $loan_control , ///
+>         absorb(bcomid#year lcomid#year lcid#year bcid#year) cluster(id2)
+{res}{txt}(dropped 18690 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on id2
+
+Number of clusters (id2) = {col 33}{res} 33443{txt}{col 55}Number of obs = {res}  975160
+{txt}{col 55}F(  8, 33442) = {res}  528.67
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res}  1493844837{txt}{col 55}Centered R2   = {res}  0.1925
+{txt}Total (uncentered) SS   = {res}  1493844837{txt}{col 55}Uncentered R2 = {res}  0.1925
+{txt}Residual SS             = {res}  1206300387{txt}{col 55}Root MSE      = {res}    37.3
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 21}{c |}{col 33}    Robust
+{col 1}             Spread{col 21}{c |} Coefficient{col 33}  std. err.{col 45}      t{col 53}   P>|t|{col 61}     [95% con{col 74}f. interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}Uncertainty {c |}{col 21}{res}{space 2} 5.498065{col 33}{space 2} 1.487898{col 44}{space 1}    3.70{col 53}{space 3}0.000{col 61}{space 4} 2.581733{col 74}{space 3} 8.414397
+{txt}Uncertainty_Nonbank {c |}{col 21}{res}{space 2}  1.59275{col 33}{space 2} .7815499{col 44}{space 1}    2.04{col 53}{space 3}0.042{col 61}{space 4} .0608845{col 74}{space 3} 3.124615
+{txt}{space 13}facamt {c |}{col 21}{res}{space 2}-.5968862{col 33}{space 2} .2193866{col 44}{space 1}   -2.72{col 53}{space 3}0.007{col 61}{space 4}-1.026892{col 74}{space 3}-.1668809
+{txt}{space 11}maturity {c |}{col 21}{res}{space 2} 9.443461{col 33}{space 2}  .623785{col 44}{space 1}   15.14{col 53}{space 3}0.000{col 61}{space 4}  8.22082{col 74}{space 3}  10.6661
+{txt}{space 11}loantype {c |}{col 21}{res}{space 2} 28.59278{col 33}{space 2} 2.546207{col 44}{space 1}   11.23{col 53}{space 3}0.000{col 61}{space 4} 23.60212{col 74}{space 3} 33.58343
+{txt}{space 10}seniority {c |}{col 21}{res}{space 2}-282.0543{col 33}{space 2} 4.797894{col 44}{space 1}  -58.79{col 53}{space 3}0.000{col 61}{space 4}-291.4583{col 74}{space 3}-272.6502
+{txt}{space 12}secured {c |}{col 21}{res}{space 2}-5.915415{col 33}{space 2} 1.764564{col 44}{space 1}   -3.35{col 53}{space 3}0.001{col 61}{space 4}-9.374021{col 74}{space 3}-2.456808
+{txt}{space 9}num_lender {c |}{col 21}{res}{space 2}-.6667691{col 33}{space 2} .0533666{col 44}{space 1}  -12.49{col 53}{space 3}0.000{col 61}{space 4}-.7713694{col 74}{space 3}-.5621688
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71}  52.507
+{txt}{col 52}Chi-sq({res}1{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71} 1.0e+05
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71} 218.437
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42}10% maximal IV size{res}{col 73}  7.03
+{txt}{col 42}15% maximal IV size{res}{col 73}  4.58
+{txt}{col 42}20% maximal IV size{res}{col 73}  3.95
+{txt}{col 42}25% maximal IV size{res}{col 73}  3.63
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.000
+{txt}{col 50}(equation exactly identified)
+{hline 78}
+Instrumented:{col 23}Uncertainty Uncertainty_Nonbank
+Included instruments:{col 23}facamt maturity loantype seniority secured num_lender
+Excluded instruments:{col 23}EPU xziv
+{help ivreg2##partial:Partialled-out}:{col 23}_cons
+{col 23}nb: total SS, model F and R2s are after partialling-out;
+{col 23}    any {help ivreg2##s_small:small-sample adjustments} include partialled-out
+{col 23}    variables in regressor count K
+{hline 78}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    80716{col 29}{space 1}        0{col 41}{result}{space 1}    80716{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    27511{col 29}{space 1}      140{col 41}{result}{space 1}    27371{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1477{col 29}{space 1}     1477{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1810{col 29}{space 1}     1810{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 稳健性检验-内生性问题.doc,replace tstat bdec(3) tdec(3) e(idstat rkf) keep( Uncertainty Uncertainty_Nonbank ) nocons
+{txt}{stata `"shellout using `"稳健性检验-内生性问题.doc"'"':稳健性检验-内生性问题.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-内生性问题.txt""':seeout}
+
+{com}.         
+.     ivreghdfe Spread ( Uncertainty Uncertainty_Nonbank = US_EPU xziv_US ) $loan_control if US_lender!=1 , ///
+>         absorb(bcomid#year lcomid#year lcid#year bcid#year) cluster(id2)
+{res}{txt}(dropped 20802 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 40 iterations)
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on id2
+
+Number of clusters (id2) = {col 33}{res} 31265{txt}{col 55}Number of obs = {res}  681351
+{txt}{col 55}F(  8, 31264) = {res}  362.49
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res} 884297658.6{txt}{col 55}Centered R2   = {res}  0.2410
+{txt}Total (uncentered) SS   = {res} 884297658.6{txt}{col 55}Uncentered R2 = {res}  0.2410
+{txt}Residual SS             = {res} 671142594.9{txt}{col 55}Root MSE      = {res}   33.51
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 21}{c |}{col 33}    Robust
+{col 1}             Spread{col 21}{c |} Coefficient{col 33}  std. err.{col 45}      t{col 53}   P>|t|{col 61}     [95% con{col 74}f. interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}Uncertainty {c |}{col 21}{res}{space 2}-1.931091{col 33}{space 2} 2.094627{col 44}{space 1}   -0.92{col 53}{space 3}0.357{col 61}{space 4}-6.036644{col 74}{space 3} 2.174462
+{txt}Uncertainty_Nonbank {c |}{col 21}{res}{space 2} 2.973047{col 33}{space 2} 1.567823{col 44}{space 1}    1.90{col 53}{space 3}0.058{col 61}{space 4}-.0999481{col 74}{space 3} 6.046042
+{txt}{space 13}facamt {c |}{col 21}{res}{space 2}-.2227789{col 33}{space 2} .1561931{col 44}{space 1}   -1.43{col 53}{space 3}0.154{col 61}{space 4}-.5289236{col 74}{space 3} .0833657
+{txt}{space 11}maturity {c |}{col 21}{res}{space 2} 8.881847{col 33}{space 2} .7629351{col 44}{space 1}   11.64{col 53}{space 3}0.000{col 61}{space 4} 7.386463{col 74}{space 3} 10.37723
+{txt}{space 11}loantype {c |}{col 21}{res}{space 2} 17.12926{col 33}{space 2} 2.508263{col 44}{space 1}    6.83{col 53}{space 3}0.000{col 61}{space 4} 12.21296{col 74}{space 3} 22.04555
+{txt}{space 10}seniority {c |}{col 21}{res}{space 2} -281.696{col 33}{space 2} 5.496527{col 44}{space 1}  -51.25{col 53}{space 3}0.000{col 61}{space 4}-292.4694{col 74}{space 3}-270.9226
+{txt}{space 12}secured {c |}{col 21}{res}{space 2}-6.842924{col 33}{space 2} 2.046277{col 44}{space 1}   -3.34{col 53}{space 3}0.001{col 61}{space 4}-10.85371{col 74}{space 3}-2.832141
+{txt}{space 9}num_lender {c |}{col 21}{res}{space 2} -.442808{col 33}{space 2}   .04898{col 44}{space 1}   -9.04{col 53}{space 3}0.000{col 61}{space 4}-.5388108{col 74}{space 3}-.3468052
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71} 133.655
+{txt}{col 52}Chi-sq({res}1{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71} 3.3e+04
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71} 199.836
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42}10% maximal IV size{res}{col 73}  7.03
+{txt}{col 42}15% maximal IV size{res}{col 73}  4.58
+{txt}{col 42}20% maximal IV size{res}{col 73}  3.95
+{txt}{col 42}25% maximal IV size{res}{col 73}  3.63
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.000
+{txt}{col 50}(equation exactly identified)
+{hline 78}
+Instrumented:{col 23}Uncertainty Uncertainty_Nonbank
+Included instruments:{col 23}facamt maturity loantype seniority secured num_lender
+Excluded instruments:{col 23}US_EPU xziv_US
+{help ivreg2##partial:Partialled-out}:{col 23}_cons
+{col 23}nb: total SS, model F and R2s are after partialling-out;
+{col 23}    any {help ivreg2##s_small:small-sample adjustments} include partialled-out
+{col 23}    variables in regressor count K
+{hline 78}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    60094{col 29}{space 1}        0{col 41}{result}{space 1}    60094{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    23885{col 29}{space 1}      146{col 41}{result}{space 1}    23739{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1795{col 29}{space 1}     1795{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2110{col 29}{space 1}     2110{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.     outreg2 using 稳健性检验-内生性问题.doc,append tstat bdec(3) tdec(3) e(idstat rkf) keep( Uncertainty Uncertainty_Nonbank ) nocons 
+{txt}{stata `"shellout using `"稳健性检验-内生性问题.doc"'"':稳健性检验-内生性问题.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-内生性问题.txt""':seeout}
+
+{com}.                 
+.     ivreghdfe Spread ( Uncertainty Uncertainty_Nonbank = UK_EPU xziv_UK ) $loan_control if UK_lender!=1 , ///
+>         absorb(bcomid#year lcomid#year lcid#year bcid#year) cluster(id2)
+{res}{txt}(dropped 17331 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}
+{txt}IV (2SLS) estimation
+{hline 20}
+
+Estimates efficient for homoskedasticity only
+Statistics robust to heteroskedasticity and clustering on id2
+
+Number of clusters (id2) = {col 33}{res} 29162{txt}{col 55}Number of obs = {res}  859897
+{txt}{col 55}F(  8, 29161) = {res}  404.15
+{txt}{col 55}Prob > F      = {res}  0.0000
+{txt}Total (centered) SS     = {res}  1309157032{txt}{col 55}Centered R2   = {res}  0.1735
+{txt}Total (uncentered) SS   = {res}  1309157032{txt}{col 55}Uncentered R2 = {res}  0.1735
+{txt}Residual SS             = {res}  1081989931{txt}{col 55}Root MSE      = {res}   37.76
+
+{txt}{hline 20}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 21}{c |}{col 33}    Robust
+{col 1}             Spread{col 21}{c |} Coefficient{col 33}  std. err.{col 45}      t{col 53}   P>|t|{col 61}     [95% con{col 74}f. interval]
+{hline 20}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 8}Uncertainty {c |}{col 21}{res}{space 2} 18.92445{col 33}{space 2} 2.955538{col 44}{space 1}    6.40{col 53}{space 3}0.000{col 61}{space 4} 13.13146{col 74}{space 3} 24.71743
+{txt}Uncertainty_Nonbank {c |}{col 21}{res}{space 2}  4.85376{col 33}{space 2} 1.487225{col 44}{space 1}    3.26{col 53}{space 3}0.001{col 61}{space 4} 1.938731{col 74}{space 3} 7.768789
+{txt}{space 13}facamt {c |}{col 21}{res}{space 2}-.6326286{col 33}{space 2} .2439105{col 44}{space 1}   -2.59{col 53}{space 3}0.009{col 61}{space 4}-1.110704{col 74}{space 3}-.1545531
+{txt}{space 11}maturity {c |}{col 21}{res}{space 2} 9.518388{col 33}{space 2}  .685516{col 44}{space 1}   13.88{col 53}{space 3}0.000{col 61}{space 4} 8.174745{col 74}{space 3} 10.86203
+{txt}{space 11}loantype {c |}{col 21}{res}{space 2} 29.96027{col 33}{space 2} 2.810764{col 44}{space 1}   10.66{col 53}{space 3}0.000{col 61}{space 4} 24.45104{col 74}{space 3}  35.4695
+{txt}{space 10}seniority {c |}{col 21}{res}{space 2}-274.3742{col 33}{space 2} 5.381465{col 44}{space 1}  -50.99{col 53}{space 3}0.000{col 61}{space 4}-284.9221{col 74}{space 3}-263.8263
+{txt}{space 12}secured {c |}{col 21}{res}{space 2}-6.252885{col 33}{space 2} 1.908243{col 44}{space 1}   -3.28{col 53}{space 3}0.001{col 61}{space 4}-9.993127{col 74}{space 3}-2.512642
+{txt}{space 9}num_lender {c |}{col 21}{res}{space 2}-.6206612{col 33}{space 2} .0580707{col 44}{space 1}  -10.69{col 53}{space 3}0.000{col 61}{space 4}-.7344824{col 74}{space 3}  -.50684
+{txt}{hline 20}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{help ivreg2##idtest:Underidentification test} (Kleibergen-Paap rk LM statistic):{res}{col 71}  64.099
+{txt}{col 52}Chi-sq({res}1{txt}) P-val =  {res}{col 73}0.0000
+{txt}{hline 78}
+{help ivreg2##widtest:Weak identification test} (Cragg-Donald Wald F statistic):{res}{col 71} 1.5e+04
+{txt}                         (Kleibergen-Paap rk Wald F statistic):{res}{col 71}  42.471
+{txt}Stock-Yogo weak ID test critical values:{res}{txt}{col 42}10% maximal IV size{res}{col 73}  7.03
+{txt}{col 42}15% maximal IV size{res}{col 73}  4.58
+{txt}{col 42}20% maximal IV size{res}{col 73}  3.95
+{txt}{col 42}25% maximal IV size{res}{col 73}  3.63
+{txt}Source: Stock-Yogo (2005).  Reproduced by permission.
+NB: Critical values are for Cragg-Donald F statistic and i.i.d. errors.
+{hline 78}
+{help ivreg2##overidtests:Hansen J statistic} (overidentification test of all instruments):{res}{col 71}   0.000
+{txt}{col 50}(equation exactly identified)
+{hline 78}
+Instrumented:{col 23}Uncertainty Uncertainty_Nonbank
+Included instruments:{col 23}facamt maturity loantype seniority secured num_lender
+Excluded instruments:{col 23}UK_EPU xziv_UK
+{help ivreg2##partial:Partialled-out}:{col 23}_cons
+{col 23}nb: total SS, model F and R2s are after partialling-out;
+{col 23}    any {help ivreg2##s_small:small-sample adjustments} include partialled-out
+{col 23}    variables in regressor count K
+{hline 78}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    76155{col 29}{space 1}        0{col 41}{result}{space 1}    76155{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    24918{col 29}{space 1}      130{col 41}{result}{space 1}    24788{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1388{col 29}{space 1}     1388{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     1718{col 29}{space 1}     1718{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.     outreg2 using 稳健性检验-内生性问题.doc,append tstat bdec(3) tdec(3) e(idstat rkf) keep( Uncertainty Uncertainty_Nonbank ) nocons
+{txt}{stata `"shellout using `"稳健性检验-内生性问题.doc"'"':稳健性检验-内生性问题.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "稳健性检验-内生性问题.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank facamt_hat maturity loantype seniority secured num_lender, ///
+>         absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25785 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 51 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,096,737
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  36831{txt}){col 67}= {res}    490.45
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9378
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9298
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1788
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    36,832{txt}{col 51}Root MSE{col 67}= {res}   35.8871
+
+{txt}{ralign 87:(Std. err. adjusted for {res:36,832} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 3.464944{col 35}{space 2} .7101307{col 46}{space 1}    4.88{col 55}{space 3}0.000{col 63}{space 4} 2.073068{col 76}{space 3} 4.856821
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.346449{col 35}{space 2} .4244176{col 46}{space 1}    3.17{col 55}{space 3}0.002{col 63}{space 4} .5145783{col 76}{space 3}  2.17832
+{txt}{space 21} {c |}
+{space 11}facamt_hat {c |}{col 23}{res}{space 2}-.3624109{col 35}{space 2} .2149002{col 46}{space 1}   -1.69{col 55}{space 3}0.092{col 63}{space 4}-.7836214{col 76}{space 3} .0587995
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 5.338974{col 35}{space 2} .5623436{col 46}{space 1}    9.49{col 55}{space 3}0.000{col 63}{space 4} 4.236765{col 76}{space 3} 6.441183
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 25.42624{col 35}{space 2}  2.29151{col 46}{space 1}   11.10{col 55}{space 3}0.000{col 63}{space 4} 20.93482{col 76}{space 3} 29.91767
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2}-282.7267{col 35}{space 2} 4.871647{col 46}{space 1}  -58.04{col 55}{space 3}0.000{col 63}{space 4}-292.2753{col 76}{space 3}-273.1781
+{txt}{space 14}secured {c |}{col 23}{res}{space 2} -3.47091{col 35}{space 2}  1.64422{col 46}{space 1}   -2.11{col 55}{space 3}0.035{col 63}{space 4}-6.693627{col 76}{space 3}-.2481929
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.5610327{col 35}{space 2} .0453326{col 46}{space 1}  -12.38{col 55}{space 3}0.000{col 63}{space 4}-.6498859{col 76}{space 3}-.4721796
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 451.1851{col 35}{space 2} 5.698815{col 46}{space 1}   79.17{col 55}{space 3}0.000{col 63}{space 4} 440.0152{col 76}{space 3} 462.3549
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    92108{col 29}{space 1}        0{col 41}{result}{space 1}    92108{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    32966{col 29}{space 1}      202{col 41}{result}{space 1}    32764{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1824{col 29}{space 1}     1824{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2147{col 29}{space 1}     2147{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 改变贷款金额分配方式.doc,replace tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty facamt_hat) adjr2 nocons
+{txt}{stata `"shellout using `"改变贷款金额分配方式.doc"'"':改变贷款金额分配方式.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "改变贷款金额分配方式.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank facamt_total maturity loantype seniority secured num_lender, ///
+>         absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   8{txt},{res}  37207{txt}){col 67}= {res}    500.54
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1745
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1045
+
+{txt}{ralign 87:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 22}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 23}{c |}{col 35}    Robust
+{col 1}               Spread{col 23}{c |} Coefficient{col 35}  std. err.{col 47}      t{col 55}   P>|t|{col 63}     [95% con{col 76}f. interval]
+{hline 22}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 10}Uncertainty {c |}{col 23}{res}{space 2} 3.912969{col 35}{space 2} .7075834{col 46}{space 1}    5.53{col 55}{space 3}0.000{col 63}{space 4} 2.526086{col 76}{space 3} 5.299852
+{txt}{space 12}1.Nonbank {c |}{col 23}{res}{space 2}        0{col 35}{txt}  (omitted)
+{space 21} {c |}
+Nonbank#c.Uncertainty {c |}
+{space 19}1  {c |}{col 23}{res}{space 2} 1.279251{col 35}{space 2} .4212251{col 46}{space 1}    3.04{col 55}{space 3}0.002{col 63}{space 4}  .453638{col 76}{space 3} 2.104864
+{txt}{space 21} {c |}
+{space 9}facamt_total {c |}{col 23}{res}{space 2}-1.781427{col 35}{space 2} .2140105{col 46}{space 1}   -8.32{col 55}{space 3}0.000{col 63}{space 4}-2.200893{col 76}{space 3} -1.36196
+{txt}{space 13}maturity {c |}{col 23}{res}{space 2} 5.771523{col 35}{space 2} .5643839{col 46}{space 1}   10.23{col 55}{space 3}0.000{col 63}{space 4} 4.665315{col 76}{space 3} 6.877731
+{txt}{space 13}loantype {c |}{col 23}{res}{space 2} 24.32117{col 35}{space 2} 2.151175{col 46}{space 1}   11.31{col 55}{space 3}0.000{col 63}{space 4} 20.10481{col 76}{space 3} 28.53754
+{txt}{space 12}seniority {c |}{col 23}{res}{space 2} -280.456{col 35}{space 2}   4.8242{col 46}{space 1}  -58.14{col 55}{space 3}0.000{col 63}{space 4}-289.9116{col 76}{space 3}-271.0004
+{txt}{space 14}secured {c |}{col 23}{res}{space 2}-3.532286{col 35}{space 2} 1.579255{col 46}{space 1}   -2.24{col 55}{space 3}0.025{col 63}{space 4}-6.627671{col 76}{space 3}-.4369018
+{txt}{space 11}num_lender {c |}{col 23}{res}{space 2}-.4824926{col 35}{space 2} .0496781{col 46}{space 1}   -9.71{col 55}{space 3}0.000{col 63}{space 4} -.579863{col 76}{space 3}-.3851221
+{txt}{space 16}_cons {c |}{col 23}{res}{space 2} 476.0108{col 35}{space 2} 5.915368{col 46}{space 1}   80.47{col 55}{space 3}0.000{col 63}{space 4} 464.4165{col 76}{space 3} 487.6051
+{txt}{hline 22}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 改变贷款金额分配方式.doc,append tstat bdec(3) tdec(3) keep( Uncertainty Nonbank#c.Uncertainty facamt_total) adjr2 nocons
+{txt}{stata `"shellout using `"改变贷款金额分配方式.doc"'"':改变贷款金额分配方式.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "改变贷款金额分配方式.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank##i.Relation_lending $loan_control, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    336.58
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1172
+
+{txt}{ralign 104:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 39}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 40}{c |}{col 52}    Robust
+{col 1}                                Spread{col 40}{c |} Coefficient{col 52}  std. err.{col 64}      t{col 72}   P>|t|{col 80}     [95% con{col 93}f. interval]
+{hline 39}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 27}Uncertainty {c |}{col 40}{res}{space 2} 3.994833{col 52}{space 2} .7152279{col 63}{space 1}    5.59{col 72}{space 3}0.000{col 80}{space 4} 2.592966{col 93}{space 3} 5.396699
+{txt}{space 29}1.Nonbank {c |}{col 40}{res}{space 2}        0{col 52}{txt}  (omitted)
+{space 38} {c |}
+{space 17}Nonbank#c.Uncertainty {c |}
+{space 36}1  {c |}{col 40}{res}{space 2} 1.193268{col 52}{space 2} .4440897{col 63}{space 1}    2.69{col 72}{space 3}0.007{col 80}{space 4}   .32284{col 93}{space 3} 2.063696
+{txt}{space 38} {c |}
+{space 20}1.Relation_lending {c |}{col 40}{res}{space 2}-.1266842{col 52}{space 2} .0929291{col 63}{space 1}   -1.36{col 72}{space 3}0.173{col 80}{space 4}-.3088278{col 93}{space 3} .0554593
+{txt}{space 38} {c |}
+{space 8}Relation_lending#c.Uncertainty {c |}
+{space 36}1  {c |}{col 40}{res}{space 2}-.1711109{col 52}{space 2} .0938221{col 63}{space 1}   -1.82{col 72}{space 3}0.068{col 80}{space 4}-.3550048{col 93}{space 3}  .012783
+{txt}{space 38} {c |}
+{space 14}Nonbank#Relation_lending {c |}
+{space 34}1 1  {c |}{col 40}{res}{space 2}-.8211497{col 52}{space 2} .3500977{col 63}{space 1}   -2.35{col 72}{space 3}0.019{col 80}{space 4}-1.507351{col 93}{space 3}-.1349485
+{txt}{space 38} {c |}
+Nonbank#Relation_lending#c.Uncertainty {c |}
+{space 34}1 1  {c |}{col 40}{res}{space 2} .2417855{col 52}{space 2} .2594625{col 63}{space 1}    0.93{col 72}{space 3}0.351{col 80}{space 4}-.2667681{col 93}{space 3} .7503391
+{txt}{space 38} {c |}
+{space 32}facamt {c |}{col 40}{res}{space 2}-.5689263{col 52}{space 2} .2033935{col 63}{space 1}   -2.80{col 72}{space 3}0.005{col 80}{space 4}-.9675832{col 93}{space 3}-.1702693
+{txt}{space 30}maturity {c |}{col 40}{res}{space 2}  5.59145{col 52}{space 2}  .565416{col 63}{space 1}    9.89{col 72}{space 3}0.000{col 80}{space 4} 4.483219{col 93}{space 3} 6.699681
+{txt}{space 30}loantype {c |}{col 40}{res}{space 2} 24.02551{col 52}{space 2} 2.146577{col 63}{space 1}   11.19{col 72}{space 3}0.000{col 80}{space 4} 19.81816{col 93}{space 3} 28.23286
+{txt}{space 29}seniority {c |}{col 40}{res}{space 2}-280.8793{col 52}{space 2} 4.806614{col 63}{space 1}  -58.44{col 72}{space 3}0.000{col 80}{space 4}-290.3004{col 93}{space 3}-271.4582
+{txt}{space 31}secured {c |}{col 40}{res}{space 2}-3.723552{col 52}{space 2} 1.584311{col 63}{space 1}   -2.35{col 72}{space 3}0.019{col 80}{space 4}-6.828845{col 93}{space 3}-.6182589
+{txt}{space 28}num_lender {c |}{col 40}{res}{space 2} -.541264{col 52}{space 2} .0449761{col 63}{space 1}  -12.03{col 72}{space 3}0.000{col 80}{space 4}-.6294184{col 93}{space 3}-.4531096
+{txt}{space 33}_cons {c |}{col 40}{res}{space 2} 453.6414{col 52}{space 2} 5.541169{col 63}{space 1}   81.87{col 72}{space 3}0.000{col 80}{space 4} 442.7805{col 93}{space 3} 464.5022
+{txt}{hline 39}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 排除其他渠道-借贷关系.doc,replace tstat bdec(3) tdec(3) ///
+>         keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#i.Relation_lending) adjr2 nocons
+{txt}{stata `"shellout using `"排除其他渠道-借贷关系.doc"'"':排除其他渠道-借贷关系.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "排除其他渠道-借贷关系.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Relation_number $loan_control, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    337.02
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1174
+
+{txt}{ralign 105:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 40}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 41}{c |}{col 53}    Robust
+{col 1}                                 Spread{col 41}{c |} Coefficient{col 53}  std. err.{col 65}      t{col 73}   P>|t|{col 81}     [95% con{col 94}f. interval]
+{hline 40}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 28}Uncertainty {c |}{col 41}{res}{space 2} 3.916074{col 53}{space 2} .7057938{col 64}{space 1}    5.55{col 73}{space 3}0.000{col 81}{space 4} 2.532699{col 94}{space 3}  5.29945
+{txt}{space 30}1.Nonbank {c |}{col 41}{res}{space 2}        0{col 53}{txt}  (omitted)
+{space 39} {c |}
+{space 18}Nonbank#c.Uncertainty {c |}
+{space 37}1  {c |}{col 41}{res}{space 2}  1.25529{col 53}{space 2} .4156828{col 64}{space 1}    3.02{col 73}{space 3}0.003{col 81}{space 4} .4405403{col 94}{space 3}  2.07004
+{txt}{space 39} {c |}
+{space 24}Relation_number {c |}{col 41}{res}{space 2} .9915635{col 53}{space 2} .4667523{col 64}{space 1}    2.12{col 73}{space 3}0.034{col 81}{space 4} .0767161{col 94}{space 3} 1.906411
+{txt}{space 39} {c |}
+{space 8}c.Uncertainty#c.Relation_number {c |}{col 41}{res}{space 2} .2450599{col 53}{space 2} .6317621{col 64}{space 1}    0.39{col 73}{space 3}0.698{col 81}{space 4}-.9932114{col 94}{space 3} 1.483331
+{txt}{space 39} {c |}
+{space 14}Nonbank#c.Relation_number {c |}
+{space 37}1  {c |}{col 41}{res}{space 2}-3.540665{col 53}{space 2} 1.315426{col 64}{space 1}   -2.69{col 73}{space 3}0.007{col 81}{space 4}-6.118937{col 94}{space 3}-.9623934
+{txt}{space 39} {c |}
+Nonbank#c.Uncertainty#c.Relation_number {c |}
+{space 37}1  {c |}{col 41}{res}{space 2} .9664917{col 53}{space 2} 1.480415{col 64}{space 1}    0.65{col 73}{space 3}0.514{col 81}{space 4}-1.935163{col 94}{space 3} 3.868147
+{txt}{space 39} {c |}
+{space 33}facamt {c |}{col 41}{res}{space 2}-.5725138{col 53}{space 2} .2032966{col 64}{space 1}   -2.82{col 73}{space 3}0.005{col 81}{space 4}-.9709807{col 94}{space 3}-.1740469
+{txt}{space 31}maturity {c |}{col 41}{res}{space 2} 5.592739{col 53}{space 2} .5653661{col 64}{space 1}    9.89{col 73}{space 3}0.000{col 81}{space 4} 4.484606{col 94}{space 3} 6.700873
+{txt}{space 31}loantype {c |}{col 41}{res}{space 2} 24.02697{col 53}{space 2} 2.146652{col 64}{space 1}   11.19{col 73}{space 3}0.000{col 81}{space 4} 19.81947{col 94}{space 3} 28.23447
+{txt}{space 30}seniority {c |}{col 41}{res}{space 2}-280.8775{col 53}{space 2}  4.80668{col 64}{space 1}  -58.43{col 73}{space 3}0.000{col 81}{space 4}-290.2987{col 94}{space 3}-271.4562
+{txt}{space 32}secured {c |}{col 41}{res}{space 2}-3.719508{col 53}{space 2} 1.584358{col 64}{space 1}   -2.35{col 73}{space 3}0.019{col 81}{space 4}-6.824894{col 94}{space 3}-.6141216
+{txt}{space 29}num_lender {c |}{col 41}{res}{space 2}-.5409462{col 53}{space 2} .0449765{col 64}{space 1}  -12.03{col 73}{space 3}0.000{col 81}{space 4}-.6291014{col 94}{space 3}-.4527911
+{txt}{space 34}_cons {c |}{col 41}{res}{space 2} 453.5943{col 53}{space 2} 5.543613{col 64}{space 1}   81.82{col 73}{space 3}0.000{col 81}{space 4} 442.7287{col 94}{space 3}   464.46
+{txt}{hline 40}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 排除其他渠道-借贷关系.doc,append tstat bdec(3) tdec(3) ///
+>         keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Relation_number) adjr2 nocons
+{txt}{stata `"shellout using `"排除其他渠道-借贷关系.doc"'"':排除其他渠道-借贷关系.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "排除其他渠道-借贷关系.txt""':seeout}
+
+{com}.         
+.         reghdfe Spread c.Uncertainty##i.Nonbank##c.Relation_amount $loan_control, absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Nonbank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}  12{txt},{res}  37207{txt}){col 67}= {res}    338.10
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1173
+
+{txt}{ralign 105:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 40}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 41}{c |}{col 53}    Robust
+{col 1}                                 Spread{col 41}{c |} Coefficient{col 53}  std. err.{col 65}      t{col 73}   P>|t|{col 81}     [95% con{col 94}f. interval]
+{hline 40}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 28}Uncertainty {c |}{col 41}{res}{space 2} 3.912852{col 53}{space 2} .7058406{col 64}{space 1}    5.54{col 73}{space 3}0.000{col 81}{space 4} 2.529385{col 94}{space 3} 5.296319
+{txt}{space 30}1.Nonbank {c |}{col 41}{res}{space 2}        0{col 53}{txt}  (omitted)
+{space 39} {c |}
+{space 18}Nonbank#c.Uncertainty {c |}
+{space 37}1  {c |}{col 41}{res}{space 2}  1.27109{col 53}{space 2} .4172012{col 64}{space 1}    3.05{col 73}{space 3}0.002{col 81}{space 4} .4533639{col 94}{space 3} 2.088816
+{txt}{space 39} {c |}
+{space 24}Relation_amount {c |}{col 41}{res}{space 2} 1.613754{col 53}{space 2} .4059934{col 64}{space 1}    3.97{col 73}{space 3}0.000{col 81}{space 4} .8179957{col 94}{space 3} 2.409512
+{txt}{space 39} {c |}
+{space 8}c.Uncertainty#c.Relation_amount {c |}{col 41}{res}{space 2}  .356619{col 53}{space 2} .5938017{col 64}{space 1}    0.60{col 73}{space 3}0.548{col 81}{space 4}-.8072488{col 94}{space 3} 1.520487
+{txt}{space 39} {c |}
+{space 14}Nonbank#c.Relation_amount {c |}
+{space 37}1  {c |}{col 41}{res}{space 2}-2.492704{col 53}{space 2} 1.081921{col 64}{space 1}   -2.30{col 73}{space 3}0.021{col 81}{space 4}  -4.6133{col 94}{space 3}-.3721092
+{txt}{space 39} {c |}
+Nonbank#c.Uncertainty#c.Relation_amount {c |}
+{space 37}1  {c |}{col 41}{res}{space 2} .4226175{col 53}{space 2}  1.45579{col 64}{space 1}    0.29{col 73}{space 3}0.772{col 81}{space 4}-2.430772{col 94}{space 3} 3.276007
+{txt}{space 39} {c |}
+{space 33}facamt {c |}{col 41}{res}{space 2}-.5764827{col 53}{space 2} .2034843{col 64}{space 1}   -2.83{col 73}{space 3}0.005{col 81}{space 4}-.9753175{col 94}{space 3}-.1776478
+{txt}{space 31}maturity {c |}{col 41}{res}{space 2} 5.593921{col 53}{space 2} .5653822{col 64}{space 1}    9.89{col 73}{space 3}0.000{col 81}{space 4} 4.485756{col 94}{space 3} 6.702086
+{txt}{space 31}loantype {c |}{col 41}{res}{space 2} 24.02807{col 53}{space 2} 2.146598{col 64}{space 1}   11.19{col 73}{space 3}0.000{col 81}{space 4} 19.82068{col 94}{space 3} 28.23546
+{txt}{space 30}seniority {c |}{col 41}{res}{space 2}-280.8752{col 53}{space 2} 4.806701{col 64}{space 1}  -58.43{col 73}{space 3}0.000{col 81}{space 4}-290.2965{col 94}{space 3} -271.454
+{txt}{space 32}secured {c |}{col 41}{res}{space 2} -3.71843{col 53}{space 2} 1.584321{col 64}{space 1}   -2.35{col 73}{space 3}0.019{col 81}{space 4}-6.823744{col 94}{space 3}-.6131164
+{txt}{space 29}num_lender {c |}{col 41}{res}{space 2}  -.54079{col 53}{space 2} .0449687{col 64}{space 1}  -12.03{col 73}{space 3}0.000{col 81}{space 4}-.6289299{col 94}{space 3}-.4526501
+{txt}{space 34}_cons {c |}{col 41}{res}{space 2}  453.623{col 53}{space 2} 5.545053{col 64}{space 1}   81.81{col 73}{space 3}0.000{col 81}{space 4} 442.7545{col 94}{space 3} 464.4914
+{txt}{hline 40}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 排除其他渠道-借贷关系.doc,append tstat bdec(3) tdec(3) ///
+>         keep( Uncertainty Nonbank#c.Uncertainty Nonbank#c.Uncertainty#c.Relation_amount) adjr2 nocons
+{txt}{stata `"shellout using `"排除其他渠道-借贷关系.doc"'"':排除其他渠道-借贷关系.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "排除其他渠道-借贷关系.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "C:\Users\liuzi\AppData\Local\Temp\STD6360_000000.tmp"
+{txt}
+{com}.         reghdfe Spread c.Uncertainty##i.Nonbank_high c.Uncertainty##i.Nonbank_low $loan_control , ///
+>         absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 49 iterations)
+{res}{txt}note: {res}1bn.Nonbank_high{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Nonbank_low{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}{txt}note: {res}Uncertainty{txt} omitted because of collinearity
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   9{txt},{res}  37207{txt}){col 67}= {res}    443.27
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1173
+
+{txt}{ralign 92:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 27}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 28}{c |}{col 40}    Robust
+{col 1}                    Spread{col 28}{c |} Coefficient{col 40}  std. err.{col 52}      t{col 60}   P>|t|{col 68}     [95% con{col 81}f. interval]
+{hline 27}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 15}Uncertainty {c |}{col 28}{res}{space 2} 4.015125{col 40}{space 2} .7191246{col 51}{space 1}    5.58{col 60}{space 3}0.000{col 68}{space 4} 2.605621{col 81}{space 3} 5.424629
+{txt}{space 12}1.Nonbank_high {c |}{col 28}{res}{space 2}        0{col 40}{txt}  (omitted)
+{space 26} {c |}
+Nonbank_high#c.Uncertainty {c |}
+{space 24}1  {c |}{col 28}{res}{space 2} 1.531621{col 40}{space 2}  .734653{col 51}{space 1}    2.08{col 60}{space 3}0.037{col 68}{space 4} .0916807{col 81}{space 3} 2.971561
+{txt}{space 26} {c |}
+{space 15}Uncertainty {c |}{col 28}{res}{space 2}        0{col 40}{txt}  (omitted)
+{space 13}1.Nonbank_low {c |}{col 28}{res}{space 2}        0{col 40}{txt}  (omitted)
+{space 26} {c |}
+{space 1}Nonbank_low#c.Uncertainty {c |}
+{space 24}1  {c |}{col 28}{res}{space 2} 7.201052{col 40}{space 2} 2.628567{col 51}{space 1}    2.74{col 60}{space 3}0.006{col 68}{space 4} 2.048988{col 81}{space 3} 12.35312
+{txt}{space 26} {c |}
+{space 20}facamt {c |}{col 28}{res}{space 2}-.5712415{col 40}{space 2} .2028478{col 51}{space 1}   -2.82{col 60}{space 3}0.005{col 68}{space 4}-.9688289{col 81}{space 3}-.1736541
+{txt}{space 18}maturity {c |}{col 28}{res}{space 2} 5.592159{col 40}{space 2} .5652863{col 51}{space 1}    9.89{col 60}{space 3}0.000{col 68}{space 4} 4.484182{col 81}{space 3} 6.700135
+{txt}{space 18}loantype {c |}{col 28}{res}{space 2} 24.02737{col 40}{space 2} 2.146788{col 51}{space 1}   11.19{col 60}{space 3}0.000{col 68}{space 4} 19.81961{col 81}{space 3} 28.23514
+{txt}{space 17}seniority {c |}{col 28}{res}{space 2}-280.8812{col 40}{space 2} 4.806786{col 51}{space 1}  -58.43{col 60}{space 3}0.000{col 68}{space 4}-290.3027{col 81}{space 3}-271.4598
+{txt}{space 19}secured {c |}{col 28}{res}{space 2}-3.718745{col 40}{space 2} 1.583994{col 51}{space 1}   -2.35{col 60}{space 3}0.019{col 68}{space 4}-6.823418{col 81}{space 3} -.614073
+{txt}{space 16}num_lender {c |}{col 28}{res}{space 2}-.5411705{col 40}{space 2} .0449658{col 51}{space 1}  -12.04{col 60}{space 3}0.000{col 68}{space 4}-.6293047{col 81}{space 3}-.4530362
+{txt}{space 21}_cons {c |}{col 28}{res}{space 2} 453.6138{col 40}{space 2} 5.543526{col 51}{space 1}   81.83{col 60}{space 3}0.000{col 68}{space 4} 442.7484{col 81}{space 3} 464.4793
+{txt}{hline 27}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 排除其他渠道-非银机构主动风险承担意愿.doc,replace tstat bdec(3) tdec(3) ///
+>         keep( Uncertainty c.Uncertainty#Nonbank_high c.Uncertainty#Nonbank_low) adjr2 nocons
+{txt}{stata `"shellout using `"排除其他渠道-非银机构主动风险承担意愿.doc"'"':排除其他渠道-非银机构主动风险承担意愿.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "排除其他渠道-非银机构主动风险承担意愿.txt""':seeout}
+
+{com}.           
+.         reghdfe Spread c.Uncertainty##i.Investment_bank c.Uncertainty##i.Finance_company $loan_control , ///
+>         absorb( bcomid#year lcomid#year lcid#year bcid#year) vce(cluster lcomid#bcid )
+{res}{txt}(dropped 25656 {browse "http://scorreia.com/research/singletons.pdf":singleton observations})
+{res}{txt}({browse "http://scorreia.com/research/hdfe.pdf":MWFE estimator} converged in 52 iterations)
+{res}{txt}note: {res}1bn.Investment_bank{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{txt}note: {res}1bn.Finance_company{txt} is probably collinear with the fixed effects (all partialled-out values are close to zero; tol = 1.0e-09)
+{res}{txt}note: {res}Uncertainty{txt} omitted because of collinearity
+{res}
+{txt}HDFE Linear regression{col 51}Number of obs{col 67}= {res} 1,133,151
+{txt}Absorbing 4 HDFE groups{col 51}F({res}   9{txt},{res}  37207{txt}){col 67}= {res}    443.21
+{txt}Statistics robust to heteroskedasticity{col 51}Prob > F{col 67}= {res}    0.0000
+{txt}{col 51}R-squared{col 67}= {res}    0.9373
+{txt}{col 51}Adj R-squared{col 67}= {res}    0.9294
+{txt}{col 51}Within R-sq.{col 67}= {res}    0.1739
+{txt}{col 1}Number of clusters ({res}lcomid#bcid{txt}) {col 30}= {res}    37,208{txt}{col 51}Root MSE{col 67}= {res}   36.1174
+
+{txt}{ralign 95:(Std. err. adjusted for {res:37,208} clusters in {res:lcomid#bcid})}
+{hline 30}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 31}{c |}{col 43}    Robust
+{col 1}                       Spread{col 31}{c |} Coefficient{col 43}  std. err.{col 55}      t{col 63}   P>|t|{col 71}     [95% con{col 84}f. interval]
+{hline 30}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 18}Uncertainty {c |}{col 31}{res}{space 2} 3.970878{col 43}{space 2} .7110139{col 54}{space 1}    5.58{col 63}{space 3}0.000{col 71}{space 4} 2.577271{col 84}{space 3} 5.364485
+{txt}{space 12}1.Investment_bank {c |}{col 31}{res}{space 2}        0{col 43}{txt}  (omitted)
+{space 29} {c |}
+Investment_bank#c.Uncertainty {c |}
+{space 27}1  {c |}{col 31}{res}{space 2} 1.513194{col 43}{space 2} .7684109{col 54}{space 1}    1.97{col 63}{space 3}0.049{col 71}{space 4} .0070873{col 84}{space 3}   3.0193
+{txt}{space 29} {c |}
+{space 18}Uncertainty {c |}{col 31}{res}{space 2}        0{col 43}{txt}  (omitted)
+{space 12}1.Finance_company {c |}{col 31}{res}{space 2}        0{col 43}{txt}  (omitted)
+{space 29} {c |}
+Finance_company#c.Uncertainty {c |}
+{space 27}1  {c |}{col 31}{res}{space 2} 2.257248{col 43}{space 2} .6468416{col 54}{space 1}    3.49{col 63}{space 3}0.000{col 71}{space 4} .9894201{col 84}{space 3} 3.525075
+{txt}{space 29} {c |}
+{space 23}facamt {c |}{col 31}{res}{space 2}-.5714062{col 43}{space 2} .2028877{col 54}{space 1}   -2.82{col 63}{space 3}0.005{col 71}{space 4}-.9690716{col 84}{space 3}-.1737407
+{txt}{space 21}maturity {c |}{col 31}{res}{space 2}  5.59234{col 43}{space 2} .5652926{col 54}{space 1}    9.89{col 63}{space 3}0.000{col 71}{space 4} 4.484351{col 84}{space 3}  6.70033
+{txt}{space 21}loantype {c |}{col 31}{res}{space 2} 24.02667{col 43}{space 2} 2.146774{col 54}{space 1}   11.19{col 63}{space 3}0.000{col 71}{space 4} 19.81893{col 84}{space 3}  28.2344
+{txt}{space 20}seniority {c |}{col 31}{res}{space 2} -280.878{col 43}{space 2} 4.806855{col 54}{space 1}  -58.43{col 63}{space 3}0.000{col 71}{space 4}-290.2995{col 84}{space 3}-271.4564
+{txt}{space 22}secured {c |}{col 31}{res}{space 2}-3.718979{col 43}{space 2} 1.583914{col 54}{space 1}   -2.35{col 63}{space 3}0.019{col 71}{space 4}-6.823495{col 84}{space 3}-.6144634
+{txt}{space 19}num_lender {c |}{col 31}{res}{space 2}-.5409025{col 43}{space 2} .0449628{col 54}{space 1}  -12.03{col 63}{space 3}0.000{col 71}{space 4}-.6290309{col 84}{space 3}-.4527741
+{txt}{space 24}_cons {c |}{col 31}{res}{space 2} 453.6017{col 43}{space 2} 5.543474{col 54}{space 1}   81.83{col 63}{space 3}0.000{col 71}{space 4} 442.7363{col 84}{space 3}  464.467
+{txt}{hline 30}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Absorbed degrees of freedom:
+{res}{col 1}{text}{hline 15}{c TT}{hline 12}{hline 12}{hline 14}{hline 1}{c TRC}
+{col 1}{text}   Absorbed FE{col 16}{c |} Categories{col 29} - Redundant{col 41}  = Num. Coefs{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c +}{hline 12}{hline 12}{hline 14}{hline 1}{c RT}
+{col 1}{text}   bcomid#year{col 16}{c |}{space 1}    93420{col 29}{space 1}        0{col 41}{result}{space 1}    93420{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}   lcomid#year{col 16}{c |}{space 1}    33606{col 29}{space 1}      289{col 41}{result}{space 1}    33317{col 55}{text} {col 56}{c |}
+{res}{col 1}{text}     lcid#year{col 16}{c |}{space 1}     1829{col 29}{space 1}     1829{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}     bcid#year{col 16}{c |}{space 1}     2151{col 29}{space 1}     2151{col 41}{result}{space 1}        0{col 55}{text}?{col 56}{c |}
+{res}{col 1}{text}{hline 15}{c BT}{hline 12}{hline 12}{hline 14}{hline 1}{c BRC}
+? = number of redundant parameters may be higher
+{res}{txt}
+{com}.         outreg2 using 排除其他渠道-非银机构主动风险承担意愿.doc,append tstat bdec(3) tdec(3) ///
+>         keep( Uncertainty c.Uncertainty#Investment_bank c.Uncertainty#Finance_company) adjr2 nocons
+{txt}{stata `"shellout using `"排除其他渠道-非银机构主动风险承担意愿.doc"'"':排除其他渠道-非银机构主动风险承担意愿.doc}
+{browse `"D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码"' :dir}{com} : {txt}{stata `"seeout using "排除其他渠道-非银机构主动风险承担意愿.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}D:\论文\全球经济不确定性、非银行金融机构与信贷风险溢价\数据与代码\运行log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}14 Jan 2025, 12:31:29
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
